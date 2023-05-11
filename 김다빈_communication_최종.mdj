@@ -21838,30 +21838,11 @@
 									"model": {
 										"$ref": "AAAAAAGIBgPSG3zDO/c="
 									},
-									"subViews": [
-										{
-											"_type": "UMLAttributeView",
-											"_id": "AAAAAAGIBiS7egW6gAo=",
-											"_parent": {
-												"$ref": "AAAAAAGIBgPSG3zLY1U="
-											},
-											"model": {
-												"$ref": "AAAAAAGIBiS7bAWxKSQ="
-											},
-											"font": "Arial;13;0",
-											"left": 509,
-											"top": 323,
-											"width": 135,
-											"height": 13,
-											"text": "-* application[]",
-											"horizontalAlignment": 0
-										}
-									],
 									"font": "Arial;13;0",
 									"left": 504,
 									"top": 318,
 									"width": 145,
-									"height": 23
+									"height": 10
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -21884,7 +21865,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 346,
+											"top": 333,
 											"width": 135,
 											"height": 13,
 											"text": "+listApply()",
@@ -21901,7 +21882,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 361,
+											"top": 348,
 											"width": 135,
 											"height": 13,
 											"text": "+deleteApply()",
@@ -21918,7 +21899,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 376,
+											"top": 363,
 											"width": 135,
 											"height": 13,
 											"text": "+cancelApply()",
@@ -21935,7 +21916,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 391,
+											"top": 378,
 											"width": 135,
 											"height": 13,
 											"text": "+listNormal()",
@@ -21944,7 +21925,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 504,
-									"top": 341,
+									"top": 328,
 									"width": 145,
 									"height": 68
 								},
@@ -23213,18 +23194,6 @@
 					},
 					"name": "회원 정보",
 					"stereotype": "entity",
-					"attributes": [
-						{
-							"_type": "UMLAttribute",
-							"_id": "AAAAAAGIBiS7bAWxKSQ=",
-							"_parent": {
-								"$ref": "AAAAAAGIBgPSG3zDO/c="
-							},
-							"name": "* application[]",
-							"visibility": "private",
-							"type": ""
-						}
-					],
 					"operations": [
 						{
 							"_type": "UMLOperation",
