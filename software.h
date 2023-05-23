@@ -2,6 +2,9 @@
 #define software_h
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 
 // **************************************************************************
 // **************************************************************************
@@ -26,22 +29,7 @@ void program_exit();
 // 클래스 선언
 
 
-// ===== Memmber class
-class Member{
-private:
-    string ID;
-    int PW;
-    
-public:
-    virtual void saveInfo()=0;
-    virtual void deleteInfo()=0;
-    virtual bool checkID()=0;
-    virtual void addApplicant()=0;
-    virtual void listApply()=0;
-    virtual void cancleApply()=0; // 회원 함수 : 지원을 취소
-    virtual void deleteApply(); // 회원 함수 XXX :지원 했던 기록 삭제
-    virtual void listStatUser()=0; //
-};
+
 
 // ===== Company class
 class Company
@@ -62,9 +50,31 @@ public:
 
 
 
+// ===== Memmber class
+class Member{
+private:
+    string ID;
+    string PW;
+    
+public:
+    void setID(string _ID){ID = _ID;}
+    void setPW(string _PW){PW = _PW;}
+    
+    virtual void saveInfo() = 0;
+    virtual void deleteInfo()= 0;
+    virtual bool checkID()= 0;
+    virtual void addApplicant()= 0;
+    virtual void listApply()= 0;
+    virtual void cancleApply()= 0; // 회원 함수 : 지원을 취소
+    virtual void listStatUser()= 0; //
+    virtual int Names() = 0;
+    void show(){cout << this->ID << " " << this->PW << endl;}
+};
+
+
 
 // ===== User class : Member
-class User : Member //일반 회원
+class UserMember : public Member //일반 회원
 {
 private:
     //ID
@@ -74,11 +84,26 @@ private:
     
     
 public:
+    UserMember(int _serial, string _ID, string _PW){
+        setID(_ID);
+        setPW(_PW);
+        this->RegisterationNumber = _serial;
+    }
+    virtual void saveInfo(){};
+    virtual void deleteInfo(){};
+    virtual bool checkID(){return true;};
+    virtual void addApplicant(){};
+    virtual void listApply(){};
+    virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
+    virtual void listStatUser(){}; //
+    virtual int Names(){return 0;}
+
+    
 };
 
 
 // =====companyStaff class : Member
-class companyStaff : Member
+class CompanyMember : public Member
 {
 private:
     //ID
@@ -87,7 +112,39 @@ private:
     int BusinessNumber;
     
 public:
+    CompanyMember(string _companyName, int _businessNum, string _ID, string _PW){
+        setID(_ID);
+        setPW(_PW);
+        this->companyName = _companyName;
+        this->BusinessNumber = _businessNum;
+    }
+    virtual void saveInfo(){};
+    virtual void deleteInfo(){};
+    virtual bool checkID(){return true;};
+    virtual void addApplicant(){};
+    virtual void listApply(){};
+    virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
+    virtual void listStatUser(){}; //
+    virtual int Names(){
+        cout << this->companyName;
+        return 1;
+    }
+
+};
+
+
+// ===== MemberList class
+class MemberList
+{
+private:
+    Member* memberList[50];
+    int numMembers;
     
+public:
+    MemberList():numMembers(0){};
+    void addMember(Member* member);
+    void deleteMember(string _name);
+    void showAll();
 };
 
 
