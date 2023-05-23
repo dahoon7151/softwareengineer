@@ -24,11 +24,23 @@ public:
     UI_Join(){
         cout << "생성 축하\n";
     }
-    void createAccount(MemberList* , string, int, string, string); //회사 회원
-    void createAccount(MemberList* , int, string, string); //일반 회원
+    void createAccount(MemberList* , int type,string, int, string, string); //회사 회원
+    void createAccount(MemberList* , int type,int, string, string); //일반 회원
 
     
 };
+
+
+//==== UI_LogIN class
+class UI_LogIn
+{
+private:
+public:
+    UI_LogIn(){ cout << "로그인 할 거예요\n"; }
+    
+    
+};
+
 
 
 
@@ -44,6 +56,12 @@ public:
 };
 
 
+
+// ****************************************************************************************
+// *************************** // CONTROL // **********************************************
+
+
+// ================ Register Control ================
 class Register
 {
 private:
@@ -54,6 +72,16 @@ public:
     void startInterface();
     void addAccount(MemberList* mem, int type);
     
+    
+};
+
+class Logging
+{
+private:
+    UI_LogIn* LogInUI;
+public:
+    void startInterface();
+    void logOut();
     
 };
 
