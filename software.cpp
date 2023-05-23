@@ -44,13 +44,12 @@ void doTask(){
                         cin >> input;
                         if(input == 1){
 
-                            control_Reg->addAccount(members, input);
-                    
+                            control_Reg->addAccount(&members, input);
                             cin.ignore();
                         
                         }
                         else{
-                            control_Reg->addAccount(members, input);
+                            control_Reg->addAccount(&members, input);
                             cin.ignore();
                         }
                         members.showAll(); //왜 안 되냐??
@@ -154,6 +153,11 @@ void join(){
 
 void program_exit(){
     cout << "sibal";
+}
+
+
+void Member::show(){
+    cout << "ID: " << ID << "\n" << "PW: " << PW << "\n" << endl;
 }
 
 

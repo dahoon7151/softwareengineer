@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include "software.h"
-#include "controls.h"
 #include <fstream>
 #include <sstream>
 
@@ -25,8 +24,8 @@ public:
     UI_Join(){
         cout << "생성 축하\n";
     }
-    void createAccount(MemberList, string, int, string, string); //회사 회원
-    void createAccount(MemberList, int, string, string); //일반 회원
+    void createAccount(MemberList* , string, int, string, string); //회사 회원
+    void createAccount(MemberList* , int, string, string); //일반 회원
 
     
 };
@@ -53,7 +52,7 @@ private:
 public:
 
     void startInterface();
-    void addAccount(MemberList mem, int type);
+    void addAccount(MemberList* mem, int type);
     
     
 };

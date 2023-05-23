@@ -68,7 +68,7 @@ public:
     virtual void cancleApply()= 0; // 회원 함수 : 지원을 취소
     virtual void listStatUser()= 0; //
     virtual int Names() = 0;
-    void show(){cout << this->ID << " " << this->PW << endl;}
+    void show();
 };
 
 
