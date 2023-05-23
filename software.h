@@ -55,10 +55,16 @@ class Member{
 private:
     string ID;
     string PW;
+    int type = -1;
     
 public:
     void setID(string _ID){ID = _ID;}
     void setPW(string _PW){PW = _PW;}
+    void setType(int type){
+        if(type == 1) type = 1;
+        else type = 0;
+    }
+
     
     virtual void saveInfo() = 0;
     virtual void deleteInfo()= 0;
@@ -84,9 +90,10 @@ private:
     
     
 public:
-    UserMember(int _serial, string _ID, string _PW){
+    UserMember(int type, int _serial,  string _ID, string _PW){
         setID(_ID);
         setPW(_PW);
+        setType(type);
         this->RegisterationNumber = _serial;
     }
     virtual void saveInfo(){};
@@ -112,9 +119,10 @@ private:
     int BusinessNumber;
     
 public:
-    CompanyMember(string _companyName, int _businessNum, string _ID, string _PW){
+    CompanyMember(int type, string _companyName, int _businessNum, string _ID, string _PW){
         setID(_ID);
         setPW(_PW);
+        setType(type);
         this->companyName = _companyName;
         this->BusinessNumber = _businessNum;
     }

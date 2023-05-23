@@ -48,10 +48,11 @@ void doTask(){
                             cin.ignore();
                         
                         }
-                        else{
+                        else if(input == 0){
                             control_Reg->addAccount(&members, input);
                             cin.ignore();
                         }
+                        else {}
                         members.showAll(); //왜 안 되냐??
                         break;
                     }
@@ -155,16 +156,34 @@ void program_exit(){
     cout << "sibal";
 }
 
+//****************************************************************************************************
+//****************************************************************************************************
+//****************************************************************************************************
 
+
+
+//============================ Member Entity 관련 함수 ============================
+
+
+// <<<<<<<<<<<<<<<<<<<<< FOR DEBUGGING >>>>>>>>>>>>>>>>>>>>>>>>
+// Member :: show()
 void Member::show(){
-    cout << "ID: " << ID << "\n" << "PW: " << PW << "\n" << endl;
+    cout << "ID: " << ID << "\n" << "PW: " << PW << "\n\n" << endl;
 }
 
 
-void MemberList::addMember(Member* member){
+
+
+
+//============================ MemberList 관련 함수 ============================
+
+//MemberList :: addMember
+void MemberList::addMember(Member* member){ //이거 포인터로 전달하기 실수!!
     memberList[numMembers++] = member;
 }
 
+
+//MemberList :: deleteMember
 void MemberList::deleteMember(string _name){
     for(int i= 0; i < numMembers; i++){
         if(memberList[i]->Names()){
@@ -173,6 +192,10 @@ void MemberList::deleteMember(string _name){
     }
 }
 
+
+
+// <<<<<<<<<<<<<<<<<<<<< FOR DEBUGGING >>>>>>>>>>>>>>>>>>>>>>>>
+//MemberList :: showAll()
 void MemberList::showAll(){
     for (int i = 0; i < numMembers; i++){
         memberList[i]->show();
