@@ -10,7 +10,7 @@
 #define MAX_STRING 32
 #define INPUT_FILE_NAME "input.txt"
 #define OUTPUT_FILE_NAME "output.txt"
-#define MAX_COMPANY 500
+#define MAX_COMPANY 100
 
 using namespace std;
 
@@ -28,7 +28,9 @@ void program_exit();
 // **************************************************************************
 // **************************************************************************
 // 클래스 선언
+class State{
 
+};
 
 // ===== Member class
 class Member{
@@ -51,30 +53,21 @@ public:
 class Company
 {
 private:
-    struct RecruitInfo {
     string CompanyName;
-    char task;
+    string task;
     int applyNumber;
     int deadline;
-};
-
-  std::vector<RecruitInfo> recruitInfos;
 
 public:
 
-    void addNewRecruitInfo(char task, int applyNumber, int deadline){ // scanf를 위해 string 대신  char
-        RecruitInfo recruitinfo;
-        recruitinfo.task = task;
-        recruitinfo.applyNumber = applyNumber;
-        recruitinfo.deadline = deadline;
-
-        recruitInfos.push_back(recruitinfo);
+    void addNewRecruitInfo(const std::string& task, int applyNumber, int deadline){ 
+      this->task = task;
+      this->applyNumber = applyNumber;
+      this->deadline = deadline;
     };
 
-    void showRecruitInfo(char task, int applyNumber, int deadline){
-        /* RecruitInfo recruitinfo;
-        if (strcmp(task, recruitinfo.task) == 0)*/
-        // 이 함수가 필요한가 그냥 받아오면 되는거 아닌가?
+    void Company::showRecruitInfo(){
+        // 이 함수가 필요한지 모르겠다 getRecruitInfoList() 함수로 한번에 받아와서 조회 기능 구현하면 될 것 같은데..?
     };
 
 
@@ -98,7 +91,6 @@ private:
     string memberName;
     int RegisterationNumber; //주민번호
     
-    
 public:
 };
 
@@ -111,7 +103,6 @@ private:
     //PWD
     string companyName;
     int BusinessNumber;
-    
 public:
     
 };
@@ -133,19 +124,10 @@ public:
     void getDetail(); //XXX (UI_showDetail, getDetail 삭제 해야함)
     void addApply(); // 즉시 지원( 외부_selectApply(), UI_apply(), addApply()
 
-    void addRecruitInfo(){
-        // addNewRecruitInfo에 이 함수 기능까지 넣어서 사용하면 될듯
-        // new 채용 정보라 필요 없을 듯 하다
-    };
-
-    int getRecruitInfoList(int num, char task, int applyNumber, int deadline ){
-        for(const RecruitInfo& recruitinfo : recruitInfos){
-            char task = recruitinfo.task;
-            int applyNumber = recruitinfo.applyNumber;
-            int deadline = recruitinfo.deadline;
-            num++;
-        }
-        return num;
+    void getRecruitInfoList(){
+        int i = 0;
+    // Company class 
+    // 배열 형태로
     };
 
     void editRecruitInfoList(); //XXX
@@ -160,11 +142,10 @@ public:
     
 };
 
-Company com[MAX_COMPANY];
 
 class applyRecruitInfoUI{
 public:
-    char task;
+    string task;
     int applyNumber;
     int deadline;
     
@@ -179,23 +160,20 @@ public:
 };
 
 class applyRecruitInfo{
-    void addRecruitInfo(){
-        applyRecruitInfoUI applyrecruitinfoui;
-        applyrecruitinfoui.inputRecruitinfo();
-        for(int i = 0; i < MAX_COMPANY; i++)
-        {
-            {
-                com[i].addNewRecruitInfo(applyrecruitinfoui.task, applyrecruitinfoui.applyNumber, applyrecruitinfoui.deadline);
-                break;
-            }
-            applyrecruitinfoui.startInterface();
-        }
+    public:
+        void addRecruitInfo(){
+            Company company;
+            std::string task;
+            int applyNum;
+            int deadline;
+
+            company.addNewRecruitInfo(task, applyNum, deadline);
     }
 };
 
 class RecruitInfoUI{
 public:
-    char task[MAX_COMPANY];
+    string task[MAX_COMPANY];
     int applyNumber[MAX_COMPANY];
     int deadline[MAX_COMPANY];
     void startInterface(int num){
@@ -208,7 +186,7 @@ public:
 
 class RecruitInfo{
 public:
-    // 지원정보 조회 형태랑 비슷하게 짜면 될 것 같은데...화살표가 없다 how??
+    // 지원정보 조회 형태랑 비슷하게 짜면 될 것 같은데 화살표가 없다 how??
 };
 
 #endif /* software_h */
