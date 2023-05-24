@@ -159,6 +159,8 @@ public:
     int checkIDlist(string, string);
     void setState(int _state, int index);
     int getState(int index);
+    void setNumMembers(int num);
+    Member* getMember(int index);
 
 };
 

@@ -46,7 +46,8 @@ void doTask(){
                     }
                     case 2://1.2 회원 탈퇴
                     {
-                        
+                        DeleteAccountControl* control_deleteAccount = new DeleteAccountControl();
+                        control_deleteAccount->call_startInterface(&members, &currentID, &currentPW);
                         break;
                     }
                 }
@@ -230,6 +231,14 @@ int MemberList::getState(int index){
     return memberList[index]->getState(); // 로그인 상태 반환
 }
 
+Member* MemberList::getMember(int index){
+    return memberList[index];
+}
+
+
+void MemberList::setNumMembers(int num){
+    numMembers = num;
+}
 
 
 

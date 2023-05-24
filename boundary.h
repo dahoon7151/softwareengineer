@@ -18,6 +18,7 @@ using namespace std;
 class RegisterControl;
 class LoginControl;
 class LogoutControl;
+class DeleteAccountControl;
 
 //================= REGISTER_UI ====================
 class RegisterUI
@@ -77,6 +78,25 @@ public:
  */
 
 
+//================= DeleteAccount_UI ====================
+class DeleteAccountUI
+{
+private:
+    DeleteAccountControl* control_deleteAccount;
+public:
+    DeleteAccountUI(DeleteAccountControl* DelAccount, MemberList* memberlist, string* curID, string* curPW){
+        cout <<"UI 생성완료\n";
+        control_deleteAccount = DelAccount;
+        this->startInterface(memberlist, curID, curPW);
+    }
+    
+    void startInterface(MemberList*, string*, string*);
+    void DeleteAccount(MemberList*, string*, string*);
+    
+    
+};
+
+
 
 
 
@@ -105,7 +125,7 @@ class LoginControl
 private:
     LoginUI* ui_login;
 public:
-    void call_startInterface(MemberList* memberlist,int type, string*, string*);
+    void call_startInterface(MemberList* memberlist, int type, string*, string*);
     void Login(MemberList* memberlist, string* curID, string* curPW);
     void Logout(MemberList* memberlist, string* curID, string* curPW);
     
@@ -125,6 +145,20 @@ public:
     
 };
 */
+
+
+
+
+//=================DELETEACCOUNT_CONTROL ====================
+class DeleteAccountControl
+{
+private:
+    DeleteAccountUI* ui_deleteaccount;
+public:
+    void call_startInterface(MemberList* , string*, string*); //근데 로그인이 된 상태여야하지 않나? 
+    void deleteAccount(MemberList*, string*, string*);
+    
+};
 
 
 #endif /* boundary_h */

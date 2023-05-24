@@ -12,10 +12,10 @@
 
 //RegisterUI :: startInterface
 void RegisterUI::startInterface(MemberList* memberlist){
+    
     cout << "type 1 to register as a company member\ntype 2 to register as a user\n";
     int input = -1;
     cin >> input;
-    
     this->addAccount(memberlist, input);
     
 }
@@ -28,7 +28,7 @@ void RegisterUI::addAccount(MemberList* memberlist, int type){
 
 //=====================// LoginUI //====================
 //=====================// LoginUI //====================
-void LoginUI::startInterface(MemberList* memberlist, int type, string* curID, string* curPW){
+void LoginUI::startInterface(MemberList* memberlist, int type, string* curID, string* curPW){ //type ==1 : 로그인, type == 0 로그아웃
     cout << "Log-in UI\n";
     
     if(type == 1) this->LogIn(memberlist, curID, curPW);
@@ -41,6 +41,20 @@ void LoginUI::LogIn(MemberList* memberlist, string* curID, string* curPW){
 
 void LoginUI::LogOut(MemberList* memberlist, string* curID, string* curPW){
     control_login->Logout(memberlist, curID, curPW);
+    
+}
+
+
+
+//=====================// DeleteAccountUI //====================
+//=====================// DeleteAccountUI //====================
+
+void DeleteAccountUI::startInterface(MemberList* memberlist, string* curID, string* curPW){
+    this->DeleteAccount(memberlist, curID, curPW);
+}
+
+void DeleteAccountUI::DeleteAccount(MemberList* memberlist, string* curID, string* curPW){
+    control_deleteAccount->deleteAccount(memberlist, curID, curPW);
 }
 
 
@@ -156,6 +170,48 @@ void LoginControl::Logout(MemberList* memberlist, string* curID, string* curPW){
 }
  
  */
+
+//=====================// DeleteAccountControl //====================
+//=====================// DeleteAccountControl //====================
+
+void DeleteAccountControl::call_startInterface(MemberList* memberlist, string* curID, string* curPW){
+    //int index = memberlist->checkIDlist(*(curID), *(curPW));
+    
+    ui_deleteaccount = new DeleteAccountUI(this, memberlist, curID, curPW);
+    
+}
+
+void DeleteAccountControl::deleteAccount(MemberList* memberlist, string* curID, string* curPW){
+    int index = memberlist->checkIDlist(*(curID), *(curPW));
+    
+    if(index >= 0){
+        //int newnumber = memberlist->getnumber() - 1;
+        int oldnumber = memberlist->getnumber();
+        memberlist->setNumMembers(0);
+        for(int i = 0; i < index; i++){
+            memberlist->addMember(memberlist->getMember(i));
+        }
+        for(int i = index + 1; i <= oldnumber; i++){
+            memberlist->addMember(memberlist->getMember(i));
+        }
+    }
+    else{
+        cout << "\n<< WARNING : 로그인부터 하세요 >>\n\n";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
