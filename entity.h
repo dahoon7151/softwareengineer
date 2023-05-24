@@ -55,15 +55,14 @@ class Member{
 private:
     string ID;
     string PW;
-    int type = -1;
+    int type = -1; //회사 = 1, 일반 = 0
+    int state = -1; // 로그인 = 1
     
 public:
     void setID(string _ID){ID = _ID;}
     void setPW(string _PW){PW = _PW;}
-    void setType(int type){
-        if(type == 1) type = 1;
-        else type = 0;
-    }
+    void setType(int type);
+    void setState(int _state);
 
     
     virtual void saveInfo() = 0;
@@ -75,6 +74,9 @@ public:
     virtual void listStatUser()= 0; //
     virtual int Names() = 0;
     void show();
+    string getID(){return ID;}
+    string getPW(){return PW;}
+    int getState(){return state;}
 };
 
 
@@ -153,6 +155,11 @@ public:
     void addMember(Member* member);
     void deleteMember(string _name);
     void showAll();
+    int getnumber(){return numMembers;}
+    int checkIDlist(string, string);
+    void setState(int _state, int index);
+    int getState(int index);
+
 };
 
 

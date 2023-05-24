@@ -1,62 +1,115 @@
 #include "boundary.h"
-#include "software.h"
+#include "entity.h"
 
-//************************************** // UI // **************************************
-//************************************** // UI // **************************************
+/*
+ ############################################### // UI // ########################################################################
+ ############################################### // UI // ########################################################################
+ ############################################### // UI // ########################################################################
+ */
 
+//=====================// RegisterUI //====================
+//=====================// RegisterUI //====================
 
-//================================== UI_Apply =======================
-//================================== UI_Apply =======================
-void UI_Apply::selectDetail(string compName){
+//RegisterUI :: startInterface
+void RegisterUI::startInterface(MemberList* memberlist){
+    cout << "type 1 to register as a company member\ntype 2 to register as a user\n";
+    int input = -1;
+    cin >> input;
+    
+    this->addAccount(memberlist, input);
+    
+}
 
+//RegisteraUI :: addAccount
+void RegisterUI::addAccount(MemberList* memberlist, int type){
+    control_register->createAccount(memberlist, type); // UI에서 컨트롤 함수 실행
 }
 
 
-
-//================================== UI_Join =======================
-//================================== UI_Join =======================
-
-void UI_Join::createAccount(MemberList* mem, int type, string _name, int _serialnumber, string _id, string _pw){
-    Member* _mem = new CompanyMember(type, _name, _serialnumber, _id, _pw);
-    mem->addMember(_mem);
-    cout << "회사회원 생성 완료\n\n";
+//=====================// LoginUI //====================
+//=====================// LoginUI //====================
+void LoginUI::startInterface(MemberList* memberlist){
+    cout << "Log-in UI\n";
+    
+    this->LogIn(memberlist);
 }
 
-void UI_Join::createAccount(MemberList* mem, int type, int _serial, string _id, string _pw){
-    Member* _mem = new UserMember(type, _serial, _id, _pw);
-    mem->addMember(_mem);
-    cout << "일반 완료\n\n";
+void LoginUI::LogIn(MemberList* memberlist){
+    control_login->Login(memberlist); //UI의 control 함수 호출 // (UI startInterface() -> UI LogIn() -> control Login())
 }
 
 
+/*
+ ############################################### // CONTROL // ########################################################################
+ ############################################### // CONTROL // ########################################################################
+ ############################################### // CONTROL // ########################################################################
+ */
 
 
-
-//************************************** // CONTROL // **************************************
-//************************************** // CONTROL // **************************************
-
+//=====================// RegisterControl //====================
+//=====================// RegisterControl //====================
 
 
-//================================== Register =======================
-//================================== Register =======================
-void Register::startInterface(){
-    RegisterUI = new UI_Join();
+//RegisterControl :: call_startInterface()
+void RegisterControl::call_startInterface(MemberList* memberlist){
+    ui_register = new RegisterUI(this, memberlist); // Control에서 UI 생성자 호출
 }
 
-void Register::addAccount(MemberList* mem, int type){
-    if(type == 1){ //회사
-        cout << "회사이름, 사원번호, 아이디, 비번 입력하세요\n";
+
+//RegisterControl :: createAccount
+void RegisterControl::createAccount(MemberList* memberlist, int type){
+    Member* mem;
+    if(type == 1){  //회사회원
         string name, id, pw;
-        int serial;
-        cin >> name >> serial >> id >> pw;
-        RegisterUI->createAccount(mem, type, name, serial, id, pw);
-    }
-    else if(type == 0){//일반
-        int serial;
-        string id, pw;
+        int serial_number;
         
-        cout << "주민번호, 아이디, 비번 입력하세요\n";
-        cin >> serial >> id >> pw;
-        RegisterUI->createAccount(mem, type, serial, id, pw);
+        cout << "회사명 사번 아이디 비번\n";
+        cin >> name >> serial_number >> id >> pw;
+        mem = new CompanyMember(type, name, serial_number,  id, pw);
+        memberlist->addMember(mem); // Control 에서 entity 함수 실행
+        
+    }
+    else if(type == 0){ //일반회원
+        string id, pw;
+        int serial_number;
+        cout << "주민번호 아이디 비번\n";
+        cin >> serial_number >> id >> pw;
+        
+        mem = new UserMember(type, serial_number, id, pw);
+        memberlist->addMember(mem); // Control 에서 entity 함수 실행
     }
 }
+
+
+
+//=====================// LoginControl //====================
+//=====================// LoginControl //====================
+
+
+//LoginControl :: startInterface
+void LoginControl::call_startInterface(MemberList* memberlist){
+    ui_login = new LoginUI(this, memberlist);
+}
+
+//LoginControl :: Login
+void LoginControl::Login(MemberList* memberlist){
+    cout << "id pw 입력\n";
+    string id, pw;
+    
+    cin.ignore();
+    cin >> id >> pw;
+    cout << "내가 입력한 거 : " << id  <<" " <<pw << endl;
+    
+    if(memberlist->checkIDlist(id, pw) >= 0){
+        cout <<"로그인 성공\n\n";
+        memberlist->setState(1, memberlist->checkIDlist(id, pw)); //type = 1이면 로그인 상태
+        
+    }
+    else if(memberlist->checkIDlist(id, pw) == -1){
+        cout <<"그런 거 없다\n";
+    }
+    
+    
+    
+}
+

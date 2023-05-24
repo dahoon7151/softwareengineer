@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string.h>
-#include "software.h"
+#include "entity.h"
 #include "boundary.h"
 
 
