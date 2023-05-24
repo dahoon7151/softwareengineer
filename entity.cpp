@@ -9,6 +9,8 @@ void doTask(){
     
     MemberList members;
     Member* pNewMember = NULL;
+    string currentID  = "";
+    string currentPW = "";
     
     int menu_level_1 = 0, menu_level_2=0;
     int is_program_exit = 0;
@@ -56,12 +58,12 @@ void doTask(){
                 switch(menu_level_2){
                     case 1: //2.1 로그인, hk pwd1
                     {
-                        control_log->call_startInterface(&members);
+                        control_log->call_startInterface(&members, 1, &currentID, &currentPW);
                         break;
                     }
                     case 2: //2.2 로그아웃, hk
                     {
-                        
+                        control_log->call_startInterface(&members, 0, &currentID, &currentPW);
                     }
                 }
                 break;
