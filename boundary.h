@@ -118,26 +118,33 @@ public:
     
     void showList()
     {
-
         RecruitInfoSearchUI recruitinfosearchui;
         recruitinfosearchui.startInterface();
         recruitinfosearchui.searchCompName();
 
-        int found = 0;
         for (int i = 0; i < 50; i++)
         {
-            found = RecruitInfoList[i].getCompList(recruitinfosearchui.CompanyName, &BusinessNumber, task, &applyNumber, deadline);
-            if (found == 0)
-                break;
+            RecruitInfoList[i].getCompList(recruitinfosearchui.CompanyName);
         }
+    }
+};
+
+class ApplyUI              ////////이거 필요한건가? startinterface함수 필요한가?
+{
+public:
+    void startInterface()
+    {
+        fprintf_s(out_fp, "4.2. 채용 지원\n");
     }
 };
 
 class Apply
 {
-public:
-    char 
+    void apply()
+    {
+        ApplyUI applyui;
+        applyui.startInterface();
+    }
 };
-
 
 #endif /* boundary_h */

@@ -187,20 +187,11 @@ public:
     void deleteApplyList(); // XXX
     void cacelApplyList();
     void getApply();
-    int getCompList(char* _CompanyName, int* _BusinessNumber, char* _task, int* _applyNumber, char* _deadline) {
+    void getCompList(char* _CompanyName) {
         if (CompanyName == _CompanyName)
         {
-            *_BusinessNumber = BusinessNumber;
-            strcpy(_task, task);
-            *_applyNumber = applyNumber;
-            strcpy(_deadline, deadline);
-
             fprintf_s(out_fp, "> %s %d %s %d %s\n", CompanyName, BusinessNumber, task, applyNumber, deadline);
-
-            return 1;
         }
-        else
-            return 0;
     }
     void getTaskList();  //XXX
     

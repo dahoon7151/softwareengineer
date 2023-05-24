@@ -86,7 +86,9 @@ void doTask(){
                 switch(menu_level_2){
                     case 1: //4.1 채용 정보 검색
                     {
-                        
+                        RecruitInfoSearch r41;
+                        r41.showList();
+                        break;
                     }
                     case 2: //4.2 채용 지원
                     {
