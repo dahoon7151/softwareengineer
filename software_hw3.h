@@ -2,7 +2,8 @@
 #define software_h
 
 #include <iostream>
-#include <vector>
+#include <fstream>
+#include <sstream>
 
 // **************************************************************************
 // **************************************************************************
@@ -13,13 +14,12 @@
 #define MAX_COMPANY 100
 
 using namespace std;
-
-FILE* in_fp, * out_fp;
-
+FILE* in_fp, *out_fp;
 
 // **************************************************************************
 // **************************************************************************
 // 함수 선언
+
 void doTask();
 void join();
 void program_exit();
@@ -28,26 +28,6 @@ void program_exit();
 // **************************************************************************
 // **************************************************************************
 // 클래스 선언
-class State{
-
-};
-
-// ===== Member class
-class Member{
-private:
-    string ID;
-    int PW;
-    
-public:
-    virtual void saveInfo()=0;
-    virtual void deleteInfo()=0;
-    virtual bool checkID()=0;
-    virtual void addApplicant()=0;
-    virtual void listApply()=0;
-    virtual void cancleApply()=0; // 회원 함수 : 지원을 취소
-    virtual void deleteApply(); // 회원 함수 XXX :지원 했던 기록 삭제
-    virtual void listStatUser()=0; //
-};
 
 // ===== Company class
 class Company
@@ -60,16 +40,8 @@ private:
 
 public:
 
-    void addNewRecruitInfo(const std::string& task, int applyNumber, int deadline){ 
-      this->task = task;
-      this->applyNumber = applyNumber;
-      this->deadline = deadline;
-    };
-
-    void Company::showRecruitInfo(){
-        // 이 함수가 필요한지 모르겠다 getRecruitInfoList() 함수로 한번에 받아와서 조회 기능 구현하면 될 것 같은데..?
-    };
-
+    void addNewRecruitInfo(const std::string& task, int applyNumber, int deadline);
+    void showRecruitInfo(); //to do
 
     void editREcruitInfo(); // XXX
     void deleteRecruitInfo(); // XXX
@@ -80,10 +52,26 @@ public:
 };
 
 
+// ===== Member class
+class Member{
+private:
+    string ID;
+    string PW;
+    
+public:
+    virtual void saveInfo()=0;
+    virtual void deleteInfo()=0;
+    virtual bool checkID()=0;
+    virtual void addApplicant()=0;
+    virtual void listApply()=0;
+    virtual void cancleApply()=0; // 회원 함수 : 지원을 취소
+    virtual void deleteApply(); // 회원 함수 XXX :지원 했던 기록 삭제
+    virtual void listStatUser()=0; //
+};
 
 
 // ===== User class : Member
-class User : Member //일반 회원
+class User : public Member //일반 회원
 {
 private:
     //ID
@@ -96,7 +84,7 @@ public:
 
 
 // =====companyStaff class : Member
-class companyStaff : Member
+class companyMember : public Member
 {
 private:
     //ID
@@ -107,6 +95,29 @@ public:
     
 };
 
+// ===== MemberList class
+class MemberList
+{
+private:
+    Member* memberList[50];
+    int numMembers;
+    
+public:
+    MemberList():numMembers(0){};
+    void addMember(Member* member);
+    void deleteMember(string _name);
+    void showAll();
+};
+
+class RecruitInfoList
+{
+private:
+    string task;
+    int applyNumber;
+    char deadline;
+public:
+
+};
 
 
 // ===== RecruitInfo class
@@ -115,20 +126,22 @@ class RecruitInfo : Company
 private:
     string CompanyName; // 1) 회사이름
     int BusinessNumber; // 2) 사업자 번호
-    char task; // 3) 업무
+    char task[MAX_COMPANY]; // 3) 업무
     int applyNumber; // 4) 인원수
-    int deadline; //5) 신청 마감일
+    char deadline[MAX_COMPANY]; //5) 신청 마감일
     int taskApplied=0;
     
 public:
     void getDetail(); //XXX (UI_showDetail, getDetail 삭제 해야함)
     void addApply(); // 즉시 지원( 외부_selectApply(), UI_apply(), addApply()
 
-    void getRecruitInfoList(){
-        int i = 0;
-    // Company class 
-    // 배열 형태로
-    };
+    void getRecruitInfoList(char* _task, int* _applyNumber, char* _deadline){
+        strcpy(_task, task);
+        *_applyNumber = applyNumber;
+        strcpy(_deadline, deadline);
+
+        fprintf(out_fp, "> %s %d %s\n", task, applyNumber, deadline);
+    }; 
 
     void editRecruitInfoList(); //XXX
     void deleteRecruitInfoList(); //XXX
@@ -143,50 +156,35 @@ public:
 };
 
 
-class applyRecruitInfoUI{
-public:
-    string task;
-    int applyNumber;
-    int deadline;
-    
-    void inputRecruitinfo(){
-        fscanf(in_fp, "%s %d %d", task, &applyNumber, &deadline);
-    }
-
-    void startInterface(){
-        fprintf(out_fp, "3.1. 채용 정보 등록\n");
-        fprintf(out_fp, "> %s %d %d\n", task, applyNumber, deadline);
-    }
-};
-
-class applyRecruitInfo{
+class applyRecruit_InfoUI{
+    private:
+        
     public:
-        void addRecruitInfo(){
-            Company company;
-            std::string task;
-            int applyNum;
-            int deadline;
-
-            company.addNewRecruitInfo(task, applyNum, deadline);
-    }
+        void inputRecruitinfo();
+        void startInterface();
 };
 
-class RecruitInfoUI{
-public:
-    string task[MAX_COMPANY];
-    int applyNumber[MAX_COMPANY];
-    int deadline[MAX_COMPANY];
-    void startInterface(int num){
-        fprintf(out_fp, "3.2. 등록된 채용 정보 조회\n");
-        for(int i = 0; i < num; i++){
-            fprintf(out_fp, "> { %s %d %d }\n", task[i], applyNumber[i], deadline[i]);
-        }
-    }
+class applyRecruit_Info{
+    public:
+        void addRecruitInfo(const std::string& task, int applyNumber, int deadline);
 };
 
-class RecruitInfo{
-public:
-    // 지원정보 조회 형태랑 비슷하게 짜면 될 것 같은데 화살표가 없다 how??
+class Recruit_InfoUI{
+    public:
+        void startInterface();
 };
 
-#endif /* software_h */
+
+RecruitInfo RecruitInfoList[50];
+
+class Recruit_Info{
+    private:
+
+    public:
+        char task[MAX_COMPANY]; 
+        int applyNumber; 
+        char deadline[MAX_COMPANY]; 
+        void showRecruitInfo(RecruitInfo* RecruitInfoList[]);
+};
+
+#endif /* software_h */ 
