@@ -1,4 +1,4 @@
-#include "software.h"
+#include "entity.h"
 #include "boundary.h"
 
 
@@ -33,26 +33,12 @@ void doTask(){
         switch(menu_level_1){
             case 1:
             {
-                Register* control_Reg = new Register();
+                RegisterControl* control_Reg = new RegisterControl();
                 switch(menu_level_2){
                     case 1: //1.1 회원가입, 1 hankook 3456 hk pwd1 /OR/ 2 98765 hn pwd2
                     {
                         
-                        control_Reg->startInterface();
-                        cout << "type 1 to register as a company member\ntype 2 to register as a User";
-                        int input = -1;
-                        cin >> input;
-                        if(input == 1){
-
-                            control_Reg->addAccount(&members, input);
-                            cin.ignore();
-                        
-                        }
-                        else if(input == 0){
-                            control_Reg->addAccount(&members, input);
-                            cin.ignore();
-                        }
-                        else {}
+                        control_Reg->call_startInterface(&members);
                         members.showAll(); //왜 안 되냐??
                         break;
                     }
@@ -66,10 +52,12 @@ void doTask(){
             }
             case 2:
             {
+                LoginControl* control_log = new LoginControl();
                 switch(menu_level_2){
                     case 1: //2.1 로그인, hk pwd1
                     {
-                        
+                        control_log->call_startInterface(&members);
+                        break;
                     }
                     case 2: //2.2 로그아웃, hk
                     {
@@ -163,13 +151,35 @@ void program_exit(){
 
 
 //============================ Member Entity 관련 함수 ============================
+// Member :: setType()
+void Member::setType(int type)
+{
+    if(type == 1) type = 1; //회사 회원
+    else type = 0; //일반 회원
+}
+
+
+
+// Member :: setState
+void Member::setState(int _state){
+    if(_state == 1){
+        state = 1;
+    }
+    else if(_state == 0){
+        state = 0;
+    }
+    else {}
+}
 
 
 // <<<<<<<<<<<<<<<<<<<<< FOR DEBUGGING >>>>>>>>>>>>>>>>>>>>>>>>
 // Member :: show()
 void Member::show(){
-    cout << "ID: " << ID << "\n" << "PW: " << PW << "\n\n" << endl;
+    cout << "\nID: " << ID << "\n" << "PW: " << PW << "\n\n" << endl;
 }
+
+
+
 
 
 
@@ -191,6 +201,33 @@ void MemberList::deleteMember(string _name){
         }
     }
 }
+
+
+//MemberList :: checkIDlist
+int MemberList::checkIDlist(string id, string pw){
+    for(int i = 0; i < this->getnumber(); i++){
+        if(memberList[i]->getID() == id){
+            if(memberList[i]->getPW() == pw){
+                //cout << "로그인 성공";
+                return i; //인덱스를 반환
+            }
+        }
+    }
+    return -1;
+}
+
+
+//MemberList :: setState
+void MemberList::setState(int _state, int index){
+    memberList[index]->setState(_state);
+}
+
+
+//MemberList :: getState
+int MemberList::getState(int index){
+    return memberList[index]->getState(); // 로그인 상태 반환
+}
+
 
 
 

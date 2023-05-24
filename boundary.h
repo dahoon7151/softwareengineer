@@ -2,86 +2,87 @@
 #define boundary_h
 
 #include <iostream>
-#include "software.h"
+#include "entity.h"
 #include <fstream>
 #include <sstream>
 
 
 using namespace std;
 
+/*
+ ############################################### // UI // ########################################################################
+ ############################################### // UI // ########################################################################
+ ############################################### // UI // ########################################################################
+ */
 
-// **************************************************************************
-// **************************************************************************
-// 클래스 선언
+class RegisterControl;
+class LoginControl;
 
-
-//==== UI_Join class
-class UI_Join{
+//================= REGISTER_UI ====================
+class RegisterUI
+{
 private:
-    
+    RegisterControl* control_register;
 public:
-    
-    UI_Join(){
-        cout << "생성 축하\n";
+    RegisterUI(RegisterControl* Reg, MemberList* memberlist){
+        cout << "UI 생성완료\n";
+        control_register = Reg;
+        this->startInterface(memberlist);
     }
-    void createAccount(MemberList* , int type,string, int, string, string); //회사 회원
-    void createAccount(MemberList* , int type,int, string, string); //일반 회원
-
+    void startInterface(MemberList* memberlist);
+    void addAccount(MemberList* memberlist, int type);
     
 };
 
 
-//==== UI_LogIN class
-class UI_LogIn
+//================= Login_UI ====================
+class LoginUI
 {
 private:
+    LoginControl* control_login;
 public:
-    UI_LogIn(){ cout << "로그인 할 거예요\n"; }
+    LoginUI(LoginControl* Log, MemberList* memberlist){
+        cout << "UI 생성완료\n";
+        control_login = Log;
+        this->startInterface(memberlist);
+    }
     
-    
-};
-
-
-
-
-//==== UI_Apply class
-class UI_Apply
-{
-private:
-    
-public:
-    void selectDetail(string);
-    void selectApply();
+    void startInterface(MemberList* memberlist);
+    void LogIn(MemberList* memberlist);
     
 };
 
 
 
-// ****************************************************************************************
-// *************************** // CONTROL // **********************************************
 
 
-// ================ Register Control ================
-class Register
+/*
+ ############################################### // CONTROL // ########################################################################
+ ############################################### // CONTROL // ########################################################################
+ ############################################### // CONTROL // ########################################################################
+ */
+
+
+//================= REGISTER_CONTROL ====================
+class RegisterControl
 {
 private:
-    UI_Join* RegisterUI;
-    
+    RegisterUI* ui_register;
 public:
-
-    void startInterface();
-    void addAccount(MemberList* mem, int type);
-    
-    
+    void call_startInterface(MemberList* memberlist);
+    void createAccount(MemberList* memberlist, int type);
 };
 
-class Logging
+
+
+//================= LOGIN_CONTROL ====================
+class LoginControl
 {
 private:
-    UI_LogIn* LogInUI;
+    LoginUI* ui_login;
 public:
-    void startInterface();
-    void logOut();
+    void call_startInterface(MemberList* memberlist);
+    void Login(MemberList* memberlist);
     
 };
 
