@@ -88,13 +88,13 @@ void RegisterControl::createAccount(MemberList* memberlist, int type){
         memberlist->addMember(mem); // Control 에서 entity 함수 실행
         
     }
-    else if(type == 0){ //일반회원
+    else if(type == 2){ //일반회원
         string id, pw;
         int serial_number;
         cout << "주민번호 아이디 비번\n";
         cin >> serial_number >> id >> pw;
         
-        mem = new UserMember(type, serial_number, id, pw);
+        mem = new UserMember(0, serial_number, id, pw);
         memberlist->addMember(mem); // Control 에서 entity 함수 실행
     }
 }
