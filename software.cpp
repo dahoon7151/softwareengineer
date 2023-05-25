@@ -234,13 +234,13 @@ void statistic() {
 
 
 
-
-
+//MemberList가 Member객체로 바로 접근 가능했으면 좋겠음(Member 내에 있는 것들에 접근 가능하게?)
+//근데 이걸 어찌 구현할지 모르겠습니다... 죄송합니다 바라는 것은 많고 할 줄은 몰라서...
 
 void ApplicationUI::startInterface(MemberList* memberlist) {
     fprintf(out_fp, "5.1.지원 정보 통계\n");
     //신호를 전달
-    ui_application = new ApplicationUI(this, memberlist);
+    ApplicationUI * ui_application = new ApplicationUI(this, memberlist);
 }
 
 ApplicationUI::ApplicationUI(Application* Apply, MemberList* memberlist) {
@@ -250,7 +250,7 @@ ApplicationUI::ApplicationUI(Application* Apply, MemberList* memberlist) {
 
 void ApplicationUI::startApplication(MemberList*memberlist) {
     fprintf(out_fp, "4.3. 지원 정보 조회\n");
-    control_application -> showList(memberlist);
+    Application * control_application -> showList(memberlist);
 }
 
 
@@ -291,7 +291,7 @@ string* User::listApply(RecruitInfo* recruitInfo[], int n) {
 void CancelApplyUI::startInterface(MemberList* member, int businessNumber) {
     fprintf(out_fp, "4.4.지원 취소\n");
     //신호를 전달
-    ui_cancelApply = new CancelApplyUI(this, member, businessNumber);
+    CancelApplyUI* ui_cancelApply = new CancelApplyUI(this, member, businessNumber);
 }
 
 CancelApplyUI::CancelApplyUI(CancelApply* Apply, MemberList* memberlist, int businessNumber) {
@@ -300,7 +300,7 @@ CancelApplyUI::CancelApplyUI(CancelApply* Apply, MemberList* memberlist, int bus
 }
 
 void CancelApplyUI::startCancel(MemberList* memberlist, int businessNumber) {
-    control_cancelApply->showCancel(memberlist, businessNumber);
+    CancelApply* control_cancelApply ->showCancel(memberlist, businessNumber); //이건 또 왜이럴까요...
 }
 
 void CancelApply::call_startInterface(MemberList* memberlist, int businessNumber) {
@@ -317,7 +317,7 @@ string* User::cancelApply(MemberList* user, int businessNumber1) {
     int i = 0;
     int a = 0;//어디서부터 앞으로 당겨야 하는지... index 저장
     string cancel[2];
-    while (user.getRecruitInfo(i) != NULL) {
+    while (user.getRecruitInfo(i+1) != NULL) {
         if (user.getRecruitInfo(i)->getBusinessNumber() == businessNumber1) {
             cancel[0] = user.getRecruitInfo(i)->getCompanyName();
             cancel[1] = user.getRecruitInfo(i)->getBusinessNumber();
@@ -340,10 +340,10 @@ string* User::cancelApply(MemberList* user, int businessNumber1) {
 void StatisticUI::startInterface(MemberList* member) {
     fprintf(out_fp, "5.1.지원 정보 통계\n");
     //신호를 전달
-    ui_statistic = new StatisticUI(this, member);
+    StatisticUI* ui_statistic = new StatisticUI(this, member);
 }
 
-StatisticUI::StatisticUI(Statistic * statistic, MemberList* member) {
+StatisticUI::StatisticUI(Statistic* statistic, MemberList* member) {
     control_statistic = statistic;
     this->startInterface(member);
 }

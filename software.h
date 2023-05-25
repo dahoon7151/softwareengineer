@@ -50,7 +50,7 @@ public:
 
 	virtual void listStat(Member member);
 	int getType();
-	RecruitInfo getRecruitInfo(int i);
+	RecruitInfo& getRecruitInfo(int i);
 	string getWorkName(int i);
 	int getWorkNum(int i);
 	void setWorkName(int i, string name);
@@ -62,9 +62,10 @@ int Member::getType() {
 	return type;
 }
 
-RecruitInfo Member::getRecruitInfo(int i) {
-	return recruitInfo[i];
-}
+RecruitInfo& Member::getRecruitInfo(int i) {
+	return *recruitInfo[i];
+} //이거 방식을 모르겠음!!!!! 대충 이런 걸 가져오고 싶은데 어떻게?
+
 string Member::getWorkName(int i) {
 	return workName[i];
 }
@@ -206,7 +207,7 @@ private:
 	Application* control_applicaion;
 public:
 	ApplicationUI(Application* Apply, MemberList* memberlist);
-	void startInterface(Application* application, MemberList* memberlist);
+	void startInterface(MemberList* memberlist);
 	void startApplication(MemberList* memberlist);
 };
 
@@ -219,12 +220,12 @@ public://memberList에서 recruitInfo를 바로 접근 가능한가?
 	void showList(MemberList* memberlist);
 };
 //==============================================
-class CancelApplyUI {
+class CancelApplyUI { //아니 멀쩡하게 있구만...
 private:
 	CancelApply* control_CancelApply;
 public:
 	CancelApplyUI(CancelApply* cancelApply, MemberList* memberlist, int businessNumber);
-	void startInterface(CancelApply* cancelApply, MemberList* memberlist, int businessNumber);
+	void startInterface(MemberList* memberlist, int businessNumber);//여기 있는데...
 	void startCancel(MemberList* memberlist, int businessNumber);
 };
 
@@ -243,7 +244,7 @@ private:
 	Statistic* control_statistic;
 public:
 	StatisticUI(Statistic* statistic, MemberList* member);//type number을 바로 접근 가능한가?
-	void startInterface(Statistic* statistic, MemberList* member);
+	void startInterface(MemberList* member);
 };
 
 
