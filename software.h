@@ -25,6 +25,11 @@ void program_exit();
 // **************************************************************************
 // 클래스 선언
 
+class MemberList {
+private:
+	Member* member[MAX_STRING];
+};
+
 
 // ===== Member class
 class Member {
@@ -52,6 +57,7 @@ public:
 	void setWorkNum(int i, int number);
 };
 
+
 int Member::getType() {
 	return type;
 }
@@ -68,7 +74,7 @@ int Member::getWorkNum(int i) {
 void Member::setWorkName(int i, string name) {
 	workName[i] = name;
 }
-void Member::setWorkNum(int i, int number = 1) {
+void Member::setWorkNum(int i, int number = 0) {
 	workNum[i] = number;
 }
 
@@ -104,11 +110,11 @@ private:
     int RegisterationNumber; //주민번호
 
 public:
-	void listApply(RecruitInfo* recruitInfo[], int n);
+	string* listApply(RecruitInfo* recruitInfo[], int n);
 	
-	void cancelApply(User user, int businessNumber1) = 0; // 회원 함수 : 지원을 취소
+	string* cancelApply(MemberList* user, int businessNumber1);
 	
-	void listStat(Member member);
+	void listStat(MemberList* member);
 };
 
 
@@ -122,7 +128,7 @@ private:
     int BusinessNumber;
 
 public:
-	void listStat(Member member);
+	void listStat(MemberList* member);
 };
 
 
@@ -158,7 +164,12 @@ public:
 	string getDeadline();
 	void getApply(RecruitInfo* recruitInfo[]);
 	void cancelApplyList(RecruitInfo* recruitInfo[], string name, int number, string work);
+	int getApplyNumber();
 };
+
+int RecruitInfo::getApplyNumber() {
+	return applyNumber;
+}
 
 string RecruitInfo::getTask() {
 	return task;
@@ -186,41 +197,66 @@ string RecruitInfo::getDeadline() {
 
 
 
+
+
+
+
 class ApplicationUI { // boundary
 private:
-
+	Application* control_applicaion;
 public:
-	virtual void startApplication() = 0;
-	virtual void startCancel() = 0;
+	ApplicationUI(Application* Apply, MemberList* memberlist);
+	void startInterface(Application* application, MemberList* memberlist);
+	void startApplication(MemberList* memberlist);
 };
 
 class Application { // control
 private:
-	ApplicationUI* applicationUI;
+	ApplicationUI* ui_application;
 
+public://memberList에서 recruitInfo를 바로 접근 가능한가?
+	void call_startInterface(MemberList* memberlist);
+	void showList(MemberList* memberlist);
+};
+//==============================================
+class CancelApplyUI {
+private:
+	CancelApply* control_CancelApply;
 public:
-	void showList(User user);
-	void showCancel(int businessNumber);
-	void startInterface();
+	CancelApplyUI(CancelApply* cancelApply, MemberList* memberlist, int businessNumber);
+	void startInterface(CancelApply* cancelApply, MemberList* memberlist, int businessNumber);
+	void startCancel(MemberList* memberlist, int businessNumber);
+};
 
+class CancelApply {
+private:
+	CancelApplyUI* ui_cancelApply;
+
+public://memberList에서 recruitInfo를 바로 접근 가능한가?
+	void showCancel(MemberList* member, int businessNumber);
+	void call_startInterface(MemberList* member, int businessNumber);
+
+};
+//===========================================
+class StatisticUI {
+private:
+	Statistic* control_statistic;
+public:
+	StatisticUI(Statistic* statistic, MemberList* member);//type number을 바로 접근 가능한가?
+	void startInterface(Statistic* statistic, MemberList* member);
 };
 
 
-class StatisticUI {
-private:
-	
-public:
-	void startStatistic(Member member);
-};//user로 virtual 어떻게 나눌지...
 
 class Statistic {
 private:
-	StatisticUI* statisticUI;
+	StatisticUI* ui_statistic;
 
 public:
-	void startInterface(Member member);
-	void getStat(Member member);
+	void call_startInterface(MemberList* member);
+	void getStat(MemberList* memeber);
 };
+
 
 
 
