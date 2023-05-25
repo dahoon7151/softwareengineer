@@ -8,6 +8,7 @@ using namespace std;
 void doTask(){
     
     MemberList members;
+    RecruitInfoList recruits;
     Member* pNewMember = NULL;
     string currentID  = "";
     string currentPW = "";
@@ -184,8 +185,11 @@ void Member::show(){
 
 
 
-
-
+//============================ RecruitInfoList 관련 함수 ============================
+void RecruitInfoList::addRecruitInfo(RecruitInfo* recInfo){
+    RecruitInfo* rec = new RecruitInfo();
+    recruitlist[numRecruitInfo++] = rec;
+}
 
 
 //============================ MemberList 관련 함수 ============================

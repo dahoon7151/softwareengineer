@@ -11,7 +11,7 @@
 //=====================// RegisterUI //====================
 
 //RegisterUI :: startInterface
-void RegisterUI::startInterface(MemberList* memberlist){
+void UI_Register::startInterface(MemberList* memberlist){
     
     cout << "type 1 to register as a company member\ntype 2 to register as a user\n";
     int input = -1;
@@ -21,25 +21,25 @@ void RegisterUI::startInterface(MemberList* memberlist){
 }
 
 //RegisteraUI :: addAccount
-void RegisterUI::addAccount(MemberList* memberlist, int type){
+void UI_Register::addAccount(MemberList* memberlist, int type){
     control_register->createAccount(memberlist, type); // UI에서 컨트롤 함수 실행
 }
 
 
 //=====================// LoginUI //====================
 //=====================// LoginUI //====================
-void LoginUI::startInterface(MemberList* memberlist, int type, string* curID, string* curPW){ //type ==1 : 로그인, type == 0 로그아웃
+void UI_Login::startInterface(MemberList* memberlist, int type, string* curID, string* curPW){ //type ==1 : 로그인, type == 0 로그아웃
     cout << "Log-in UI\n";
     
     if(type == 1) this->LogIn(memberlist, curID, curPW);
     else this->LogOut(memberlist, curID, curPW);
 }
 
-void LoginUI::LogIn(MemberList* memberlist, string* curID, string* curPW){
+void UI_Login::LogIn(MemberList* memberlist, string* curID, string* curPW){
     control_login->Login(memberlist, curID, curPW); //UI의 control 함수 호출 // (UI startInterface() -> UI LogIn() -> control Login())
 }
 
-void LoginUI::LogOut(MemberList* memberlist, string* curID, string* curPW){
+void UI_Login::LogOut(MemberList* memberlist, string* curID, string* curPW){
     control_login->Logout(memberlist, curID, curPW);
     
 }
@@ -49,14 +49,24 @@ void LoginUI::LogOut(MemberList* memberlist, string* curID, string* curPW){
 //=====================// DeleteAccountUI //====================
 //=====================// DeleteAccountUI //====================
 
-void DeleteAccountUI::startInterface(MemberList* memberlist, string* curID, string* curPW){
+void UI_DeleteAccount::startInterface(MemberList* memberlist, string* curID, string* curPW){
     this->DeleteAccount(memberlist, curID, curPW);
 }
 
-void DeleteAccountUI::DeleteAccount(MemberList* memberlist, string* curID, string* curPW){
+void UI_DeleteAccount::DeleteAccount(MemberList* memberlist, string* curID, string* curPW){
     control_deleteAccount->deleteAccount(memberlist, curID, curPW);
 }
 
+
+//=====================// ApplyRecruitUI //====================
+//=====================// ApplyRecruitUI //====================
+void UI_ApplyRecruit::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    this->addRecruit(memberlist, rec,  curID, curPW);
+}
+
+void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    control_applyrecruit->addRecruit(memberlist, rec, curID, curPW)
+}
 
 /*
  ############################################### // CONTROL // ########################################################################
@@ -70,13 +80,13 @@ void DeleteAccountUI::DeleteAccount(MemberList* memberlist, string* curID, strin
 
 
 //RegisterControl :: call_startInterface()
-void RegisterControl::call_startInterface(MemberList* memberlist){
-    ui_register = new RegisterUI(this, memberlist); // Control에서 UI 생성자 호출
+void Control_Register::call_startInterface(MemberList* memberlist){
+    ui_register = new UI_Register(this, memberlist); // Control에서 UI 생성자 호출
 }
 
 
 //RegisterControl :: createAccount
-void RegisterControl::createAccount(MemberList* memberlist, int type){
+void Control_Register::createAccount(MemberList* memberlist, int type){
     Member* mem;
     if(type == 1){  //회사회원
         string name, id, pw;
@@ -106,13 +116,13 @@ void RegisterControl::createAccount(MemberList* memberlist, int type){
 
 
 //LoginControl :: startInterface
-void LoginControl::call_startInterface(MemberList* memberlist, int type, string* curID, string* curPW){
-    ui_login = new LoginUI(this, type, memberlist, curID, curPW);
+void Control_Login::call_startInterface(MemberList* memberlist, int type, string* curID, string* curPW){
+    ui_login = new UI_Login(this, type, memberlist, curID, curPW);
 
 }
 
 //LoginControl :: Login
-void LoginControl::Login(MemberList* memberlist, string* curID, string* curPW){
+void Control_Login::Login(MemberList* memberlist, string* curID, string* curPW){
     cout << "id pw 입력\n";
     string id, pw;
     
@@ -134,7 +144,7 @@ void LoginControl::Login(MemberList* memberlist, string* curID, string* curPW){
 }
 
 //LoginControl :: Logout
-void LoginControl::Logout(MemberList* memberlist, string* curID, string* curPW){
+void Control_Login::Logout(MemberList* memberlist, string* curID, string* curPW){
     int index = memberlist->checkIDlist(*(curID), *(curPW));
     
     if(index < 0){
@@ -174,14 +184,14 @@ void LoginControl::Logout(MemberList* memberlist, string* curID, string* curPW){
 //=====================// DeleteAccountControl //====================
 //=====================// DeleteAccountControl //====================
 
-void DeleteAccountControl::call_startInterface(MemberList* memberlist, string* curID, string* curPW){
+void Control_DeleteAccount::call_startInterface(MemberList* memberlist, string* curID, string* curPW){
     //int index = memberlist->checkIDlist(*(curID), *(curPW));
     
-    ui_deleteaccount = new DeleteAccountUI(this, memberlist, curID, curPW);
+    ui_deleteaccount = new UI_DeleteAccount(this, memberlist, curID, curPW);
     
 }
 
-void DeleteAccountControl::deleteAccount(MemberList* memberlist, string* curID, string* curPW){
+void Control_DeleteAccount::deleteAccount(MemberList* memberlist, string* curID, string* curPW){
     int index = memberlist->checkIDlist(*(curID), *(curPW));
     
     if(index >= 0){
@@ -198,6 +208,27 @@ void DeleteAccountControl::deleteAccount(MemberList* memberlist, string* curID, 
     else{
         cout << "\n<< WARNING : 로그인부터 하세요 >>\n\n";
     }
+}
+
+
+
+//=====================// ApplyRecruit Controll //====================
+//=====================// ApplyRecruit Controll //====================
+void Control_ApplyRecruit::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+    ui_applyrecruit = new UI_ApplyRecruit(this, memberlist, recruitlist, curID, curPW);
+}
+
+void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+    //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
+    string _name;
+    int bn;
+    string _task;
+    int an;
+    int dl;
+    
+    cin >> _name >> bn >> _task >> an >> dl;
+    RecruitInfo* rec = new RecruitInfo(_name, bn, _task, an, dl);
+    recruitlist->addRecruitInfo(rec);
 }
 
 

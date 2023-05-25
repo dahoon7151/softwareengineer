@@ -29,25 +29,8 @@ void program_exit();
 // 클래스 선언
 
 
-
-
-// ===== Company class
-class Company
-{
-private:
-    string CompanyName;
-    
-public:
-    void addNewRecruitInfo();
-    void showRecruitInfo();
-    void editREcruitInfo(); // XXX
-    void deleteRecruitInfo(); // XXX
-    void expireRecruitInfo(); // XXX
-    void sendMessage();
-    void listStatComp();
-    
-};
-
+class RecruitInfo;
+class MemberList;
 
 
 // ===== Memmber class
@@ -63,7 +46,7 @@ public:
     void setPW(string _PW){PW = _PW;}
     void setType(int type);
     void setState(int _state);
-
+    
     
     virtual void saveInfo() = 0;
     virtual void deleteInfo()= 0;
@@ -89,7 +72,8 @@ private:
     //PWD 는 상속
     string memberName;
     int RegisterationNumber; //주민번호
-    
+    RecruitInfo* AppliedList[10];
+    int appliedNum = 0;
     
 public:
     UserMember(int type, int _serial,  string _ID, string _PW){
@@ -106,8 +90,15 @@ public:
     virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
     virtual void listStatUser(){}; //
     virtual int Names(){return 0;}
-
     
+    string* listApply(RecruitInfo* recruitInfo[], int n);
+    string* cancelApply(MemberList* user, int businessNumber1);
+    
+    void listStat(MemberList* member);
+    void addAppy(){
+        RecruitInfo* info = new RecruitInfo();
+        AppliedList[appliedNum++] = info;
+    }
 };
 
 
@@ -139,7 +130,47 @@ public:
         cout << this->companyName;
         return 1;
     }
+    
+};
 
+
+// ===== RecruitInfo class
+class RecruitInfo
+{
+private:
+    string CompanyName; // 1) 회사이름
+    int BusinessNumber; // 2) 사업자 번호
+    string task; // 3) 업무
+    int applyNumber; // 4) 인원수
+    int deadline; //5) 신청 마감일
+    int taskApplied=0;
+    
+public:
+    RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
+        CompanyName = _compname;
+        BusinessNumber = _Bn;
+        task = _task;
+        applyNumber = _applynum;
+        deadline = _deadline;
+    }
+    void getDetail(); //XXX (UI_showDetail, getDetail 삭제 해야함)
+    void addApply(); // 즉시 지원( 외부_selectApply(), UI_apply(), addApply()
+    void getRecruitInfoList();
+    void editRecruitInfoList(); //XXX
+    void deleteRecruitInfoList(); //XXX
+    void checkAppNum();
+    void deleteApplyList(); // XXX
+    void getApply();
+    void getCompList();
+    void getTaskList();
+    
+    //=======김다빈================
+    string getTask();
+    int getBusinessNumber();
+    string getCompanyName();
+    string getDeadline();
+    void cancelApplyList(int a, int b);
+    int getApplyNumber();
 };
 
 
@@ -159,39 +190,28 @@ public:
     int checkIDlist(string, string);
     void setState(int _state, int index);
     int getState(int index);
-    void setNumMembers(int num);
-    Member* getMember(int index);
-
 };
 
 
 
-// ===== RecruitInfo class
-class RecruitInfo : Company
+
+
+
+
+class RecruitInfoList
 {
 private:
-    string CompanyName; // 1) 회사이름
-    int BusinessNumber; // 2) 사업자 번호
-    string task; // 3) 업무
-    int applyNumber; // 4) 인원수
-    int deadline; //5) 신청 마감일
-    int taskApplied=0;
+    RecruitInfo* recruitlist[50];
+    int numRecruitInfo;
     
 public:
-    void getDetail(); //XXX (UI_showDetail, getDetail 삭제 해야함)
-    void addApply(); // 즉시 지원( 외부_selectApply(), UI_apply(), addApply()
-    void getRecruitInfoList();
-    void editRecruitInfoList(); //XXX
-    void deleteRecruitInfoList(); //XXX
-    void checkAppNum();
-    void getStatistic();
-    void deleteApplyList(); // XXX
-    void cacelApplyList();
-    void getApply();
-    void getCompList();
-    void getTaskList();
+    RecruitInfoList():numRecruitInfo(0){}
+    void addRecruitInfo(RecruitInfo* recruitinfo);
     
 };
+
+
+
 
 
 
