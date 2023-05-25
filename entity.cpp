@@ -36,7 +36,7 @@ void doTask(){
         switch(menu_level_1){
             case 1:
             {
-                RegisterControl* control_Reg = new RegisterControl();
+                Control_Register* control_Reg = new Control_Register();
                 switch(menu_level_2){
                     case 1: //1.1 회원가입, 1 hankook 3456 hk pwd1 /OR/ 2 98765 hn pwd2
                     {
@@ -47,7 +47,7 @@ void doTask(){
                     }
                     case 2://1.2 회원 탈퇴
                     {
-                        DeleteAccountControl* control_deleteAccount = new DeleteAccountControl();
+                        Control_DeleteAccount* control_deleteAccount = new Control_DeleteAccount();
                         control_deleteAccount->call_startInterface(&members, &currentID, &currentPW);
                         break;
                     }
@@ -56,7 +56,7 @@ void doTask(){
             }
             case 2:
             {
-                LoginControl* control_log = new LoginControl();
+                Control_Login* control_log = new Control_Login();
                 switch(menu_level_2){
                     case 1: //2.1 로그인, hk pwd1
                     {
@@ -72,10 +72,11 @@ void doTask(){
             }
             case 3:
             {
+                Control_ApplyRecruit* control_applyrec = new Control_ApplyRecruit();
                 switch(menu_level_2){
                     case 1: //3.1 채용 정보 등록
                     {
-                        
+                        control_applyrec->call_startInterface(&members, &recruits, &currentID, &currentPW);
                     }
                     case 2: //3.2 등록된 채용 정보 조회
                     {
@@ -187,8 +188,10 @@ void Member::show(){
 
 //============================ RecruitInfoList 관련 함수 ============================
 void RecruitInfoList::addRecruitInfo(RecruitInfo* recInfo){
-    RecruitInfo* rec = new RecruitInfo();
-    recruitlist[numRecruitInfo++] = rec;
+
+    //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
+
+    recruitlist[numRecruitInfo++] = recInfo;
 }
 
 

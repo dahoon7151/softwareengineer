@@ -111,11 +111,11 @@ public:
     UI_ApplyRecruit(Control_ApplyRecruit* applyrec, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
         cout <<"UI Generated\\nn";
         control_applyrecruit = applyrec;
-        this->startInterface(memberlist, recruitlist, curID, curPW);
+        this->startInterface(memberlist,recruitlist, curID, curPW);
     }
     
-    void startInterface(MemberList*, RecruitInfoList* string*, string*);
-    void addRecruit(MemberList*, RecruitInfoList* string*, string*);
+    void startInterface(MemberList*, RecruitInfoList*, string*  , string*);
+    void addRecruit(MemberList*, RecruitInfoList*,  string*, string*);
     
 };
 

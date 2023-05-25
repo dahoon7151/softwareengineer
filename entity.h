@@ -59,6 +59,8 @@ public:
     void show();
     string getID(){return ID;}
     string getPW(){return PW;}
+    virtual string getName()=0;
+    virtual int getNumber()=0;
     int getState(){return state;}
 };
 
@@ -70,7 +72,7 @@ class UserMember : public Member //일반 회원
 private:
     //ID
     //PWD 는 상속
-    string memberName;
+    string name;
     int RegisterationNumber; //주민번호
     RecruitInfo* AppliedList[10];
     int appliedNum = 0;
@@ -90,15 +92,15 @@ public:
     virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
     virtual void listStatUser(){}; //
     virtual int Names(){return 0;}
+    virtual string getName(){return name;}
+    virtual int getNumber(){return RegisterationNumber;}
+    
     
     string* listApply(RecruitInfo* recruitInfo[], int n);
     string* cancelApply(MemberList* user, int businessNumber1);
     
     void listStat(MemberList* member);
-    void addAppy(){
-        RecruitInfo* info = new RecruitInfo();
-        AppliedList[appliedNum++] = info;
-    }
+
 };
 
 
@@ -130,6 +132,8 @@ public:
         cout << this->companyName;
         return 1;
     }
+    virtual string getName(){return companyName;}
+    virtual int getNumber(){return BusinessNumber;}
     
 };
 
@@ -190,6 +194,9 @@ public:
     int checkIDlist(string, string);
     void setState(int _state, int index);
     int getState(int index);
+    
+    Member* getMember(int index);
+    void setNumMembers(int num);
 };
 
 

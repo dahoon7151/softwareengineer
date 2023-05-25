@@ -53,7 +53,7 @@ void UI_DeleteAccount::startInterface(MemberList* memberlist, string* curID, str
     this->DeleteAccount(memberlist, curID, curPW);
 }
 
-void UI_DeleteAccount::DeleteAccount(MemberList* memberlist, string* curID, string* curPW){
+void UI_DeleteAccount::DeleteAccount(MemberList* memberlist,  string* curID, string* curPW){
     control_deleteAccount->deleteAccount(memberlist, curID, curPW);
 }
 
@@ -65,7 +65,7 @@ void UI_ApplyRecruit::startInterface(MemberList* memberlist, RecruitInfoList* re
 }
 
 void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    control_applyrecruit->addRecruit(memberlist, rec, curID, curPW)
+    control_applyrecruit->addRecruit(memberlist, rec, curID, curPW);
 }
 
 /*
@@ -220,14 +220,23 @@ void Control_ApplyRecruit::call_startInterface(MemberList* memberlist, RecruitIn
 
 void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
     //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
-    string _name;
-    int bn;
+    cout << "\n업무 인원 기한\n";
+    string ID = *(curID);
+    string PW = *(curPW);
+    
+    int index = memberlist->checkIDlist(ID, PW);
+    Member* mem = memberlist->getMember(index);
+    
+    string _name = mem->getName();
+    int bn = mem->getNumber();
     string _task;
     int an;
     int dl;
     
-    cin >> _name >> bn >> _task >> an >> dl;
+    cin >> _task >> an >> dl;
     RecruitInfo* rec = new RecruitInfo(_name, bn, _task, an, dl);
+    cout <<"\n여기까진 성공\n";
+     
     recruitlist->addRecruitInfo(rec);
 }
 
