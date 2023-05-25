@@ -263,6 +263,7 @@ void Application::call_startInterface(MemberList*memberlist) {
 void Application::showList(MemberList* memberlist) {
     int i = 0;
     while (memberlist.recruitInfo[i]->getBusinessNumber() != NULL) {
+    while (memberlist.getRecruitInfo[i]->getBusinessNumber() != NULL) {
         string *arr = memberlist.listApply(memberlist.recruitInfo, i);
         fprintf_s(out_fp, "%s, %s, %s, %s", arr[0], arr[1], arr[2], arr[3]);
         i++;
@@ -327,6 +328,7 @@ string* User::cancelApply(MemberList* user, int businessNumber1) {
         }
         if (a < i) {
             user.recruitInfo[i] = user.getRecruitInfo(i + 1);
+            user.recruitInfo[i] = user.getRecruitInfo(i + 1); //���Ⱑ �����ϴ�...
         }
         i++;
     }

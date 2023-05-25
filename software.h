@@ -202,6 +202,11 @@ string RecruitInfo::getDeadline() {
 
 
 
+
+
+
+
+
 class ApplicationUI { // boundary
 private:
 	Application* control_applicaion;
