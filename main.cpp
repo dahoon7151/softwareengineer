@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string.h>
-#include "software.h"
+#include "entity.h"
+#include "boundary.h"
+
 
 
 
@@ -12,14 +14,14 @@ using namespace std;
 ifstream fin;
 ofstream fout;
 
-// ���� ����
-FILE* in_fp, * out_fp;
+// 변수 선언
+FILE* in_fp, *out_fp;
 
-int main() {
+int main(){
     fin.open(INPUT_FILE);
     fout.open(OUTPUT_FILE);
     doTask();
-
+    
     fin.close();
     fout.close();
     return 0;
