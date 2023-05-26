@@ -50,6 +50,7 @@ void UI_Login::LogOut(MemberList* memberlist, string* curID, string* curPW){
 //=====================// DeleteAccountUI //====================
 
 void UI_DeleteAccount::startInterface(MemberList* memberlist, string* curID, string* curPW){
+    cout << "DEL UI\n";
     this->DeleteAccount(memberlist, curID, curPW);
 }
 
@@ -61,7 +62,7 @@ void UI_DeleteAccount::DeleteAccount(MemberList* memberlist,  string* curID, str
 //=====================// ApplyRecruitUI //====================
 //=====================// ApplyRecruitUI //====================
 void UI_ApplyRecruit::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    this->addRecruit(memberlist, rec,  curID, curPW);
+    this->addRecruit(memberlist, rec, curID, curPW);
 }
 
 void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
@@ -69,9 +70,11 @@ void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, s
 }
 
 
+
 //=====================// UserInfo //====================
 //=====================// UserInfo //====================
 void UI_UserInfo::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    cout << "USER INFO\n";
     this->printInfo(memberlist,rec,curID,curPW);
 }
 void UI_UserInfo::printInfo(MemberList* memberlist,RecruitInfoList* rec, string* curID, string* curPW){
@@ -84,6 +87,7 @@ void UI_UserInfo::printInfo(MemberList* memberlist,RecruitInfoList* rec, string*
 //=====================// DeleteApply //====================
 //=====================// DeleteApply //====================
 void UI_DeleteApply::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    cout << "DEL APPLY UI\n";
     UserMember* user = memberlist->getMember(memberlist->checkIDlist(*(curID), *(curPW)));
     user->showAllApplied();
     
@@ -102,10 +106,25 @@ void UI_DeleteApply::DeleteApply(UserMember* mem, int index){
 //=====================// Apply //====================
 //=====================// Apply //====================
 
+void UI_Apply::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    cout << "APPLY UI\n";
+    this->Apply();
+}
 
+void UI_Apply::Apply(){
+    control_apply->Apply();
+}
 
+//=====================// Search //====================
+//=====================// Search //====================
+void UI_Search::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
+    cout << "SEARCH UI\n";
+    this->Search(rec);
+}
 
-
+void UI_Search::Search(RecruitInfoList* info){
+    control_search->Search(info);
+}
 
 
 /*
@@ -265,10 +284,10 @@ void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* r
     string PW = *(curPW);
     
     int index = memberlist->checkIDlist(ID, PW);
-    Member* mem = memberlist->getMember(index);
+    //Member* mem = memberlist->getCompMember(index);
     
-    string _name = mem->getName();
-    int bn = mem->getNumber();
+    string _name ;
+    int bn ;
     string _task;
     int an;
     int dl;
@@ -279,6 +298,12 @@ void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* r
      
     recruitlist->addRecruitInfo(rec);
 }
+
+
+void Control_Apply::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+    ui_apply = new UI_Apply(this, memberlist, recruitlist, curID, curPW);
+}
+
 
 
 
@@ -318,6 +343,23 @@ void Control_DeleteApply::deleteApply(UserMember* mem, int index){
         mem->Apply(mem->getAppliedList(i));
     }
     cout << "삭제완료\n\n";
+}
+
+
+void Control_Apply::Apply(){
+    
+}
+
+
+void Control_Search::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+    ui_search = new UI_Search(this, memberlist, recruitlist, curID, curPW);
+}
+
+void Control_Search::Search(RecruitInfoList* info){
+    string name;
+    cout << "검색하고자 하는 회사 이름:\n";
+    cin >> name;
+    info->show(name);
 }
 
 

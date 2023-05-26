@@ -41,6 +41,8 @@ class Member{
 private:
     string ID;
     string PW;
+    string Name="";
+    int number;
     int type = -1; //회사 = 1, 일반 = 0
     int state = -1; // 로그인 = 1
     
@@ -51,6 +53,11 @@ public:
     void setPW(string _PW){PW = _PW;}
     void setType(int type);
     void setState(int _state);
+    string GETNAME(){return Name;}
+    void setName(string name){Name = name;}
+    void setNumber(int num){number = num;}
+    
+    int getNumber(){return number;}
     
     
     virtual void saveInfo() = 0;
@@ -65,7 +72,6 @@ public:
     string getID(){return ID;}
     string getPW(){return PW;}
     virtual string getName()=0;
-    virtual int getNumber()=0;
     int getState(){return state;}
     
     virtual UserMember* getUserMember()=0;
@@ -81,25 +87,24 @@ class UserMember : public Member //일반 회원
 private:
     //ID
     //PWD 는 상속
-    string name;
-    int RegisterationNumber; //주민번호
+    //int RegisterationNumber; //주민번호
     RecruitInfo* AppliedList[10];
     int appliedNum = 0;
     
 public:
     UserMember(int type, int _serial,  string _ID, string _PW):Member(type, _ID, _PW){
-        this->RegisterationNumber = _serial;
+        setNumber(_serial);
     }
     virtual void saveInfo(){};
-    virtual void deleteInfo(){};
-    virtual bool checkID(){return true;};
-    virtual void addApplicant(){};
-    virtual void listApply(){};
-    virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
-    virtual void listStatUser(){}; //
+    virtual void deleteInfo(){}
+    virtual bool checkID(){return true;}
+    virtual void addApplicant(){}
+    virtual void listApply(){}
+    virtual void cancleApply(){}// 회원 함수 : 지원을 취소
+    virtual void listStatUser(){} //
     virtual int Names(){return 0;}
-    virtual string getName(){return name;}
-    virtual int getNumber(){return RegisterationNumber;}
+    //virtual string getName(){return name;}
+    virtual int getNumber(){return Member::getNumber();}
     
     void sortList();
     string getCompname(int index);
@@ -108,6 +113,7 @@ public:
     int getDeadline(int index);
     int getAppliedNum(){return appliedNum;}
     virtual UserMember* getUserMember(){return this;}
+
     void showAllApplied();
     void Apply(RecruitInfo* rec);
     RecruitInfo* getAppliedList(int index){return AppliedList[index];}
@@ -195,6 +201,7 @@ public:
     string getTask();
     int getHeads();
     int getDeadline();
+    int getBusinessNumber();
 
 };
 
@@ -207,35 +214,41 @@ class CompanyMember : public Member
 private:
     //ID
     //PWD
-    string companyName;
-    int BusinessNumber;
+    //string companyName;
+    //int BusinessNumber;
     RecruitInfo lists[50];
     
 public:
+    CompanyMember():Member(0, " ", " "){}
     CompanyMember(int _type, string _companyName, int _businessNum, string _ID, string _PW):Member(_type, _ID, _PW){
-        this->companyName = _companyName;
-        this->BusinessNumber = _businessNum;
+        //this->companyName = _companyName;
+        //this->BusinessNumber = _businessNum;
+        setName(_companyName);
+        setNumber(_businessNum);
     }
     
-    virtual void saveInfo(){};
-    virtual void deleteInfo(){};
-    virtual bool checkID(){return true;};
-    virtual void addApplicant(){};
-    virtual void listApply(){};
-    virtual void cancleApply(){}; // 회원 함수 : 지원을 취소
-    virtual void listStatUser(){}; //
+    virtual void saveInfo(){}
+    virtual void deleteInfo(){}
+    virtual bool checkID(){return true;}
+    virtual void addApplicant(){}
+    virtual void listApply(){}
+    virtual void cancleApply(){}// 회원 함수 : 지원을 취소
+    virtual void listStatUser(){} //
     virtual int Names(){
-        cout << this->companyName;
+        cout << getName();
         return 1;
     }
      
      
-    virtual string getName(){return companyName;}
-    virtual int getNumber(){return BusinessNumber;}
+    virtual string getName(){return Member::getName();}
+    virtual int getNumber(){return Member::getNumber();}
     virtual UserMember* getUserMember(){
         UserMember* user = new UserMember(1, 2, "1", "3");
         return user;
     }
+    
+    string getID(){return Member::getID();}
+    string getPW(){return Member::getPW();}
 };
 
 
@@ -259,6 +272,7 @@ public:
     
     void setNumMembers(int num);
     UserMember* getMember(int index);
+    string getCompName(int index);
     
 };
 
@@ -277,6 +291,9 @@ private:
 public:
     RecruitInfoList():numRecruitInfo(0){}
     void addRecruitInfo(RecruitInfo* recruitinfo);
+    void show(string compname);
+    
+    string getCompName(int index);
     
 };
 

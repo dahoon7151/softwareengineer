@@ -25,6 +25,7 @@ class Control_ApplyRecruit;
 class Control_UserInfo;
 class Control_DeleteApply;
 class Control_Apply;
+class Control_Search;
 
 
 //================= REGISTER_UI ====================
@@ -152,6 +153,40 @@ public:
     
     void startInterface(MemberList*, RecruitInfoList*, string*, string*);
     void DeleteApply(UserMember* mem, int index);
+};
+
+
+class UI_Apply
+{
+private:
+    Control_Apply* control_apply;
+    
+public:
+    UI_Apply(Control_Apply* apply, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+        cout <<"유아이ㅣ 잘 됐다\n\n";
+        control_apply = apply;
+        this->startInterface(memberlist, recruitlist, curID, curPW);
+    }
+    
+    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
+    void Apply();
+};
+
+
+class UI_Search
+{
+private:
+    Control_Search* control_search;
+    
+public:
+    UI_Search(Control_Search* search, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+        cout <<"유아이ㅣ 잘 됐다\n\n";
+        control_search = search;
+        this->startInterface(memberlist, recruitlist, curID, curPW);
+    }
+    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
+    void Search(RecruitInfoList*);
+
 };
 
 
@@ -294,6 +329,28 @@ private:
 public:
     void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
     void deleteApply(UserMember*, int index);
+};
+
+
+
+class Control_Search
+{
+private:
+    UI_Search* ui_search;
+public:
+    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
+    void Search(RecruitInfoList*);
+};
+
+
+class Control_Apply
+{
+private:
+    UI_Apply*  ui_apply;
+public:
+    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
+    void Apply();
+
 };
 
 

@@ -90,15 +90,17 @@ void doTask(){
                 switch(menu_level_2){
                     case 1: //4.1 채용 정보 검색
                     {
-                        Control_UserInfo* control_user = new Control_UserInfo();
-                        control_user->call_startInterface(&members, &recruits, &currentID, &currentPW);
+                        Control_Search* control_search = new Control_Search();
+                        control_search->call_startInterface(&members, &recruits, &currentID, &currentPW);
                     }
                     case 2: //4.2 채용 지원
                     {
+                
                     }
                     case 3: //4.3 지원 정보 조회
                     {
-                        
+                        Control_UserInfo* control_user = new Control_UserInfo();
+                        control_user->call_startInterface(&members, &recruits, &currentID, &currentPW);
                     }
                     case 4: //4.4 지원 취소
                     {
@@ -200,6 +202,8 @@ void UserMember::Apply(RecruitInfo* rec){
 
 
 
+
+
 // <<<<<<<<<<<<<<<<<<<<< FOR DEBUGGING >>>>>>>>>>>>>>>>>>>>>>>>
 // Member :: show()
 void Member::show(){
@@ -211,16 +215,20 @@ void Member::show(){
 
 //============================ RecruitInfoList 관련 함수 ============================
 string RecruitInfo::getCompName(){
-    return CompanyName;
+    return this->CompanyName;
 }
 string RecruitInfo::getTask(){
-    return task;
+    return this->task;
 }
 int RecruitInfo::getHeads(){
-    return applyNumber;
+    return this->applyNumber;
 }
 int RecruitInfo::getDeadline(){
-    return deadline;
+    return this->deadline;
+}
+
+int RecruitInfo::getBusinessNumber(){
+    return this->BusinessNumber;
 }
 
 
@@ -230,6 +238,24 @@ void RecruitInfoList::addRecruitInfo(RecruitInfo* recInfo){
     //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
 
     recruitlist[numRecruitInfo++] = recInfo;
+}
+
+
+void RecruitInfoList::show(string compname){
+    for(int i = 0; i < numRecruitInfo; i++){
+        if(compname == recruitlist[i]->getCompName()){
+            cout << recruitlist[i]->getCompName() << "\n";
+            cout << recruitlist[i]->getBusinessNumber() << "\n";
+            cout << recruitlist[i]->getTask() << "\n";
+            cout << recruitlist[i]->getHeads() << "\n";
+            cout << recruitlist[i]->getDeadline() << "\n";
+        }
+    }
+}
+
+
+string RecruitInfoList::getCompName(int index){
+    return recruitlist[index]->getCompName();
 }
 
 
@@ -293,6 +319,11 @@ int MemberList::getState(int index){
 UserMember* MemberList::getMember(int index){
     return memberList[index]->getUserMember();
 }
+
+CompanyMember* MemberList::getCompname(int index){
+    memberList[index]->
+}
+
 
 
 
