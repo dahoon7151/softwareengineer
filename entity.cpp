@@ -3,6 +3,7 @@
 
 
 
+using namespace std;
 
 void doTask(){
     
@@ -81,7 +82,7 @@ void doTask(){
                     {
                         
                     }
-                    
+                        
                 }
                 break;
             }
@@ -90,24 +91,21 @@ void doTask(){
                 switch(menu_level_2){
                     case 1: //4.1 채용 정보 검색
                     {
-                        Control_Search* control_search = new Control_Search();
-                        control_search->call_startInterface(&members, &recruits, &currentID, &currentPW);
+                        
                     }
                     case 2: //4.2 채용 지원
                     {
-                
+                        
                     }
                     case 3: //4.3 지원 정보 조회
                     {
-                        Control_UserInfo* control_user = new Control_UserInfo();
-                        control_user->call_startInterface(&members, &recruits, &currentID, &currentPW);
+                        
                     }
                     case 4: //4.4 지원 취소
                     {
-                        Control_DeleteApply* control_user = new Control_DeleteApply();
-                        control_user->call_startInterface(&members, &recruits, &currentID, &currentPW);
+                        
                     }
-
+                        
                 }
                 break;
             }
@@ -179,31 +177,6 @@ void Member::setState(int _state){
 }
 
 
-void UserMember::sortList(){
-    sort(AppliedList, AppliedList+appliedNum);
-}
-
-string UserMember::getCompname(int index){
-    return AppliedList[index]->getCompName();
-}
-string UserMember::getTask(int index){
-    return AppliedList[index]->getTask();
-}
-int UserMember::getHeads(int index){
-    return AppliedList[index]->getHeads();
-}
-int UserMember::getDeadline(int index){
-    return AppliedList[index]->getDeadline();
-}
-
-void UserMember::Apply(RecruitInfo* rec){
-    AppliedList[appliedNum++] = rec;
-}
-
-
-
-
-
 // <<<<<<<<<<<<<<<<<<<<< FOR DEBUGGING >>>>>>>>>>>>>>>>>>>>>>>>
 // Member :: show()
 void Member::show(){
@@ -213,67 +186,17 @@ void Member::show(){
 
 
 
+
 //============================ RecruitInfoList 관련 함수 ============================
-string RecruitInfo::getCompName(){
-    return this->CompanyName;
-}
-string RecruitInfo::getTask(){
-    return this->task;
-}
-int RecruitInfo::getHeads(){
-    return this->applyNumber;
-}
-int RecruitInfo::getDeadline(){
-    return this->deadline;
-}
-
-int RecruitInfo::getBusinessNumber(){
-    return this->BusinessNumber;
-}
-
-
-
 void RecruitInfoList::addRecruitInfo(RecruitInfo* recInfo){
-
+    
     //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
-
+    
     recruitlist[numRecruitInfo++] = recInfo;
 }
 
 
-void RecruitInfoList::show(string compname){
-    for(int i = 0; i < numRecruitInfo; i++){
-        if(compname == recruitlist[i]->getCompName()){
-            cout << recruitlist[i]->getCompName() << "\n";
-            cout << recruitlist[i]->getBusinessNumber() << "\n";
-            cout << recruitlist[i]->getTask() << "\n";
-            cout << recruitlist[i]->getHeads() << "\n";
-            cout << recruitlist[i]->getDeadline() << "\n";
-        }
-    }
-}
-
-
-string RecruitInfoList::getCompName(int index){
-    return recruitlist[index]->getCompName();
-}
-
-
 //============================ MemberList 관련 함수 ============================
-
-void UserMember::showAllApplied(){
-    for(int i = 0; i < appliedNum; i++){
-        cout << "[ "  << i << " ]\n";
-        cout << getCompname(i) <<"\n";
-        cout << getTask(i) << "\n";
-        cout << getHeads(i) << "\n";
-        cout << getDeadline(i) << "\n\n\n";
-    }
-}
-
-
-
-
 
 //MemberList :: addMember
 void MemberList::addMember(Member* member){ //이거 포인터로 전달하기 실수!!
@@ -316,15 +239,9 @@ int MemberList::getState(int index){
     return memberList[index]->getState(); // 로그인 상태 반환
 }
 
-UserMember* MemberList::getMember(int index){
-    return memberList[index]->getUserMember();
+Member* MemberList::getMember(int index){
+    return memberList[index];
 }
-
-CompanyMember* MemberList::getCompname(int index){
-    memberList[index]->
-}
-
-
 
 
 void MemberList::setNumMembers(int num){

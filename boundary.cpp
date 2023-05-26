@@ -50,7 +50,6 @@ void UI_Login::LogOut(MemberList* memberlist, string* curID, string* curPW){
 //=====================// DeleteAccountUI //====================
 
 void UI_DeleteAccount::startInterface(MemberList* memberlist, string* curID, string* curPW){
-    cout << "DEL UI\n";
     this->DeleteAccount(memberlist, curID, curPW);
 }
 
@@ -62,7 +61,7 @@ void UI_DeleteAccount::DeleteAccount(MemberList* memberlist,  string* curID, str
 //=====================// ApplyRecruitUI //====================
 //=====================// ApplyRecruitUI //====================
 void UI_ApplyRecruit::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    this->addRecruit(memberlist, rec, curID, curPW);
+    this->addRecruit(memberlist, rec,  curID, curPW);
 }
 
 void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
@@ -71,60 +70,18 @@ void UI_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* rec, s
 
 
 
-//=====================// UserInfo //====================
-//=====================// UserInfo //====================
-void UI_UserInfo::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    cout << "USER INFO\n";
-    this->printInfo(memberlist,rec,curID,curPW);
-}
-void UI_UserInfo::printInfo(MemberList* memberlist,RecruitInfoList* rec, string* curID, string* curPW){
-    int index = memberlist->checkIDlist(*(curID), *(curPW));
-    control_userinfo->printInfo(memberlist, index);
+//====================// 4.1 RecruitInfoSearchUI //======================
+
+void UI_RecruitInfoSearch::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW) {
+    string compName;
+    cin >> compName;
+    this->search(memberlist, rec, compName, curID, curPW);
 }
 
-
-
-//=====================// DeleteApply //====================
-//=====================// DeleteApply //====================
-void UI_DeleteApply::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    cout << "DEL APPLY UI\n";
-    UserMember* user = memberlist->getMember(memberlist->checkIDlist(*(curID), *(curPW)));
-    user->showAllApplied();
-    
-    int input;
-    cin >> input;
-    
-    this->DeleteApply(user, input);
+void UI_RecruitInfoSearch::search(MemberList* memberlist, RecruitInfoList* rec, string compName, string* curID, string* curPW) {
+    //con->search(memberlist, rec, compName, curID, curPW);
 }
 
-void UI_DeleteApply::DeleteApply(UserMember* mem, int index){
-    //드동안 등록한 어플라이 목록을 뽑아주는 과정이 필요함
-    control_deleteapply->deleteApply(mem, index);
-}
-
-
-//=====================// Apply //====================
-//=====================// Apply //====================
-
-void UI_Apply::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    cout << "APPLY UI\n";
-    this->Apply();
-}
-
-void UI_Apply::Apply(){
-    control_apply->Apply();
-}
-
-//=====================// Search //====================
-//=====================// Search //====================
-void UI_Search::startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW){
-    cout << "SEARCH UI\n";
-    this->Search(rec);
-}
-
-void UI_Search::Search(RecruitInfoList* info){
-    control_search->Search(info);
-}
 
 
 /*
@@ -177,7 +134,7 @@ void Control_Register::createAccount(MemberList* memberlist, int type){
 //LoginControl :: startInterface
 void Control_Login::call_startInterface(MemberList* memberlist, int type, string* curID, string* curPW){
     ui_login = new UI_Login(this, type, memberlist, curID, curPW);
-
+    
 }
 
 //LoginControl :: Login
@@ -220,23 +177,23 @@ void Control_Login::Logout(MemberList* memberlist, string* curID, string* curPW)
 }
 
 /*
-
-//=====================// LogoutControl //====================
-//=====================// LogoutControl //====================
-
-void LoginControl::Logout(MemberList* memberlist, string* curID, string* curPW){
-    int index = memberlist->checkIDlist(*(curID), *(curPW));
-    
-    if(index < 0){
-        cout << "그런 아이디 없다\n\n";
-    }
-    else{
-        if(memberlist->getState(index)){
-            memberlist->setState(-1, index);
-            cout <<"\n로그아웃 완료\n\n";
-        }
-    }
-}
+ 
+ //=====================// LogoutControl //====================
+ //=====================// LogoutControl //====================
+ 
+ void LoginControl::Logout(MemberList* memberlist, string* curID, string* curPW){
+ int index = memberlist->checkIDlist(*(curID), *(curPW));
+ 
+ if(index < 0){
+ cout << "그런 아이디 없다\n\n";
+ }
+ else{
+ if(memberlist->getState(index)){
+ memberlist->setState(-1, index);
+ cout <<"\n로그아웃 완료\n\n";
+ }
+ }
+ }
  
  */
 
@@ -271,8 +228,8 @@ void Control_DeleteAccount::deleteAccount(MemberList* memberlist, string* curID,
 
 
 
-//=====================// ApplyRecruit Controll //====================
-//=====================// ApplyRecruit Controll //====================
+//=====================// ApplyRecruit Control  //====================
+//=====================// ApplyRecruit Control//====================
 void Control_ApplyRecruit::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
     ui_applyrecruit = new UI_ApplyRecruit(this, memberlist, recruitlist, curID, curPW);
 }
@@ -284,10 +241,10 @@ void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* r
     string PW = *(curPW);
     
     int index = memberlist->checkIDlist(ID, PW);
-    //Member* mem = memberlist->getCompMember(index);
+    Member* mem = memberlist->getMember(index);
     
-    string _name ;
-    int bn ;
+    string _name = mem->getName();
+    int bn = mem->getNumber();
     string _task;
     int an;
     int dl;
@@ -295,72 +252,51 @@ void Control_ApplyRecruit::addRecruit(MemberList* memberlist, RecruitInfoList* r
     cin >> _task >> an >> dl;
     RecruitInfo* rec = new RecruitInfo(_name, bn, _task, an, dl);
     cout <<"\n여기까진 성공\n";
-     
+    
     recruitlist->addRecruitInfo(rec);
 }
 
 
-void Control_Apply::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-    ui_apply = new UI_Apply(this, memberlist, recruitlist, curID, curPW);
+//====================3.2 채용 정보 조회
+
+
+
+
+
+//=====================// 4.1 RecruitInfoSearch Controll //====================
+//=====================// 4.1 RecruitInfoSearch Controll //====================
+void Control_RecruitInfoSearch::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW) {
+    //ui_recruitinfosearch = new UI_RecruitInfoSearch(this, memberlist, recruitlist, curID, curPW);
 }
 
-
-
-
-
-
-
-
-//=====================// User Info Controll //====================
-//=====================// User Info Controll //====================
-
-void Control_UserInfo::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-    ui_userinfo = new UI_UserInfo(this, memberlist, recruitlist, curID, curPW);
-}
-
-void Control_UserInfo::printInfo(MemberList* memberlist, int index){
-    UserMember* mem = memberlist->getMember(index);
-    mem->sortList();
-    cout << mem->getCompname(index) << "\n";
-    cout << mem->getTask(index) << "\n";
-    cout << mem->getHeads(index) << "\n";
-    cout << mem->getDeadline(index) << "\n";
+void Control_RecruitInfoSearch::search(MemberList* memberlist, RecruitInfoList* recruitlist, string compName, string* curID, string* curPW) {
+    //RecruitInfo(string _compname, int _Bn, string _task, int _applynum, int _deadline):taskApplied(0){
+    cout << "\n4.1. 채용 정보 검색\n";
+    string ID = *(curID);
+    string PW = *(curPW);
+    
+    int index = memberlist->checkIDlist(ID, PW);
+    Member *mem = memberlist->getMember(index);
+    int index2 = recruitlist->checkCompanyName(compName);
+    RecruitInfo *rci = recruitlist->getRecruitInfo(index2);
+    
+    string _name = mem->getName();
+    int bn = mem->getNumber();
+    string _task = rci->getTask();
+    int an = rci->getApplyNumber();
+    string _dl = rci->getDeadline();
+    
+    cout << ">" << _name << bn << _task << an << _dl;
+    //RecruitInfo * rec = new RecruitInfo(_name, bn, _task, an, _dl);
+    //recruitlist->addRecruitInfo(rec);
     
 }
 
 
 
-//=====================// Delete Apply Controll //====================
-//=====================// Delete Apply Controll //====================
-void Control_DeleteApply::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-    UI_deleteapply = new UI_DeleteApply(this, memberlist, recruitlist, curID, curPW);
-}
-
-void Control_DeleteApply::deleteApply(UserMember* mem, int index){
-    int oldnum = mem->getAppliedNum();
-    mem->setAppliedNum(index);
-    for(int i = index + 1; i < oldnum; i++){
-        mem->Apply(mem->getAppliedList(i));
-    }
-    cout << "삭제완료\n\n";
-}
 
 
-void Control_Apply::Apply(){
-    
-}
 
-
-void Control_Search::call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-    ui_search = new UI_Search(this, memberlist, recruitlist, curID, curPW);
-}
-
-void Control_Search::Search(RecruitInfoList* info){
-    string name;
-    cout << "검색하고자 하는 회사 이름:\n";
-    cin >> name;
-    info->show(name);
-}
 
 
 

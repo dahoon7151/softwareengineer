@@ -22,20 +22,20 @@ class Control_DeleteAccount;
 class Control_Login;
 class Control_Logout;
 class Control_ApplyRecruit;
-class Control_UserInfo;
-class Control_DeleteApply;
+class Control_ApplyRecruitInfo;
+class Control_RecruitInfoSearch;
 class Control_Apply;
-class Control_Search;
+class Control_Statistic;
+class Control_CancelApply;
+class Control_Application;
 
-
-//================= REGISTER_UI ====================
+//================= REGISTER ====================
 class UI_Register
 {
 private:
     Control_Register* control_register;
 public:
     UI_Register(Control_Register* Reg, MemberList* memberlist){
-        cout << "UI 생성완료\n";
         control_register = Reg;
         this->startInterface(memberlist);
     }
@@ -45,6 +45,17 @@ public:
 };
 
 
+class Control_Register
+{
+private:
+    UI_Register* ui_register;
+public:
+    void call_startInterface(MemberList* memberlist);
+    void createAccount(MemberList* memberlist, int type);
+};
+
+
+
 //================= Login_UI ====================
 class UI_Login
 {
@@ -52,7 +63,6 @@ private:
     Control_Login* control_login;
 public:
     UI_Login(Control_Login* Log, int type, MemberList* memberlist, string* curID, string* curPW){
-        cout << "UI 생성완료\n";
         control_login = Log;
         this->startInterface(memberlist, type, curID, curPW);
     }
@@ -60,6 +70,18 @@ public:
     void startInterface(MemberList* memberlist, int type, string*, string*);
     void LogIn(MemberList* memberlist, string* , string* );
     void LogOut(MemberList* memberlist, string*, string*);
+    
+};
+
+
+class Control_Login
+{
+private:
+    UI_Login* ui_login;
+public:
+    void call_startInterface(MemberList* memberlist, int type, string*, string*);
+    void Login(MemberList* memberlist, string* curID, string* curPW);
+    void Logout(MemberList* memberlist, string* curID, string* curPW);
     
 };
 
@@ -105,142 +127,6 @@ public:
 };
 
 
-
-
-//================= ApplyRecruit_UI ====================
-class UI_ApplyRecruit{
-private:
-    Control_ApplyRecruit* control_applyrecruit;
-public:
-    UI_ApplyRecruit(Control_ApplyRecruit* applyrec, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-        cout <<"UI Generated\\nn";
-        control_applyrecruit = applyrec;
-        this->startInterface(memberlist,recruitlist, curID, curPW);
-    }
-    
-    void startInterface(MemberList*, RecruitInfoList*, string*  , string*);
-    void addRecruit(MemberList*, RecruitInfoList*,  string*, string*);
-    
-};
-
-
-class UI_UserInfo
-{
-private:
-    Control_UserInfo* control_userinfo;
-public:
-    UI_UserInfo(Control_UserInfo* userinfo, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-        cout << "UI Generated\n";
-        control_userinfo = userinfo;
-        this->startInterface(memberlist, recruitlist, curID, curPW);
-    }
-    
-    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
-    void printInfo(MemberList* memberlist, RecruitInfoList* rec,  string* curID, string* curPW);
-};
-
-
-class UI_DeleteApply
-{
-private:
-    Control_DeleteApply* control_deleteapply;
-public:
-    UI_DeleteApply(Control_DeleteApply* delapply, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-        cout << "UI Generated\n";
-        control_deleteapply = delapply;
-        this->startInterface(memberlist, recruitlist, curID, curPW);
-    }
-    
-    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
-    void DeleteApply(UserMember* mem, int index);
-};
-
-
-class UI_Apply
-{
-private:
-    Control_Apply* control_apply;
-    
-public:
-    UI_Apply(Control_Apply* apply, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-        cout <<"유아이ㅣ 잘 됐다\n\n";
-        control_apply = apply;
-        this->startInterface(memberlist, recruitlist, curID, curPW);
-    }
-    
-    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
-    void Apply();
-};
-
-
-class UI_Search
-{
-private:
-    Control_Search* control_search;
-    
-public:
-    UI_Search(Control_Search* search, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
-        cout <<"유아이ㅣ 잘 됐다\n\n";
-        control_search = search;
-        this->startInterface(memberlist, recruitlist, curID, curPW);
-    }
-    void startInterface(MemberList*, RecruitInfoList*, string*, string*);
-    void Search(RecruitInfoList*);
-
-};
-
-
-
-/*
- ############################################### // CONTROL // ########################################################################
- ############################################### // CONTROL // ########################################################################
- ############################################### // CONTROL // ########################################################################
- */
-
-
-//================= REGISTER_CONTROL ====================
-class Control_Register
-{
-private:
-    UI_Register* ui_register;
-public:
-    void call_startInterface(MemberList* memberlist);
-    void createAccount(MemberList* memberlist, int type);
-};
-
-
-
-//================= LOGIN_CONTROL ====================
-class Control_Login
-{
-private:
-    UI_Login* ui_login;
-public:
-    void call_startInterface(MemberList* memberlist, int type, string*, string*);
-    void Login(MemberList* memberlist, string* curID, string* curPW);
-    void Logout(MemberList* memberlist, string* curID, string* curPW);
-    
-};
-
-
-/*
- 
- //================= LOGOUT_CONTROL ====================
- class LogoutControl
- {
- private:
- LogoutUI* ui_logout;
- public:
- void call_startInterface(MemberList* memberlist);
- void Logout(MemberList* memberlist, string* curID, string* curPW);
- 
- };
- */
-
-
-
-
-//=================DELETEACCOUNT_CONTROL ====================
 class Control_DeleteAccount
 {
 private:
@@ -253,168 +139,151 @@ public:
 
 
 
+//================= ApplyRecruit_UI ====================
+class UI_ApplyRecruit{
+private:
+    Control_ApplyRecruit* control_applyrecruit;
+public:
+    UI_ApplyRecruit(Control_ApplyRecruit* applyrec, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW){
+        control_applyrecruit = applyrec;
+        this->startInterface(memberlist,recruitlist, curID, curPW);
+    }
+    
+    void startInterface(MemberList*, RecruitInfoList*, string*  , string*);
+    void addRecruit(MemberList*, RecruitInfoList*,  string*, string*);
+    
+};
 
 
-//====================3.1 채용 정보 등록=======================
-//+++++++++++++ 민아님 ++++++++++++++++
 class Control_ApplyRecruit{
 private:
     UI_ApplyRecruit* ui_applyrecruit;
 public:
-    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*); //근데 로그인이 된 상태여야하지 않나?
+    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
     void addRecruit(MemberList* memberlist, RecruitInfoList*, string* curID, string* curPW);
 };
 
 
 
+//===================3.2=================
 
-class applyRecruit_InfoUI {
-    
-};
-
-class applyRecruit_Info {
-    
-};
-
-
-
-
-
-
-//====================4.1 채용 정보 검색
-
-class RecruitInfoSearchUI
+class UI_ApplyRecruitInfo
 {
 private:
+    Control_ApplyRecruitInfo* con;
 public:
+    void startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    void showRecruitInfo(MemberList*, RecruitInfoList*, string*, string*);
 };
 
-class RecruitInfoSearch
-{
+class Control_ApplyRecruitInfo{
 private:
+    UI_ApplyRecruitInfo* ui_applyrecruitinfo;
 public:
+    void call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    void showRecruitInfo(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
 };
+
+
+//====================4.1 채용 정보 검색=========================
+
+class UI_RecruitInfoSearch{
+    
+public:
+    void startInterface(MemberList* memberlist, RecruitInfoList* rec, string* curID, string* curPW);
+    void search(MemberList* memberlist, RecruitInfoList* rec, string compName, string* curID, string* curPW);
+};
+
+class Control_RecruitInfoSearch {
+private:
+    UI_RecruitInfoSearch* ui_recruitinfosearch;
+public:
+    void call_startInterface(MemberList*, RecruitInfoList*, string*, string*);
+    void search(MemberList* memberlist, RecruitInfoList* rec, string compName, string* curID, string* curPW);
+};
+
+
 
 //====================4.2 채용 지원==================================
-
-class ApplyUI
-{
-private:
-public:
+class UI_Apply{
+    
 };
-
-class Apply
-{
-private:
-public:
-};
-
-
-//==================== User  Info ==================================
-class Control_UserInfo{
-private:
-    UI_UserInfo* ui_userinfo;
-public:
-    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
-    void printInfo(MemberList* mem, int index);
-};
-
-
-
-
-
-class Control_DeleteApply{
-private:
-    UI_DeleteApply* UI_deleteapply;
-public:
-    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
-    void deleteApply(UserMember*, int index);
-};
-
-
-
-class Control_Search
-{
-private:
-    UI_Search* ui_search;
-public:
-    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
-    void Search(RecruitInfoList*);
-};
-
 
 class Control_Apply
 {
 private:
-    UI_Apply*  ui_apply;
+    UI_Apply* ui_apply;
 public:
-    void call_startInterface(MemberList* , RecruitInfoList*, string*, string*);
-    void Apply();
-
+    void startInterface(MemberList*, RecruitInfoList*, RecruitInfo*, string*, string*);
+    void apply(MemberList* memberlist, RecruitInfoList* rec, RecruitInfo*, int businessNum, string* curID, string* curPW);
 };
 
 
 
 
-/*
+
 //====================4.3===================================
 class UI_Application { // boundary
 private:
-    Application* control_applicaion;
+    Control_Application* control_applicaion;
 public:
-    ApplicationUI(Application* Apply, MemberList* memberlist);
-    void startInterface(MemberList* memberlist);
-    void startApplication(MemberList* memberlist);
+    void startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    UI_Application(Control_Application* Apply, MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    void startApplication(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
 };
 
-class Application { // control
+class Control_Application { // control
 private:
-    ApplicationUI* ui_application;
+    UI_Application* ui_application;
     
 public://memberList에서 recruitInfo를 바로 접근 가능한가?
-    void call_startInterface(MemberList* memberlist);
-    void showList(MemberList* memberlist);
+    void call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW, int businessNumber);
+    void showCancel(MemberList* memberlist, int businessNumber);
 };
+
+
 //==============================================
-class CancelApplyUI { //아니 멀쩡하게 있구만...
+class UI_CancelApply { //아니 멀쩡하게 있구만...
 private:
-    CancelApply* control_CancelApply;
+    Control_CancelApply* control_CancelApply;
 public:
-    CancelApplyUI(CancelApply* cancelApply, MemberList* memberlist, int businessNumber);
-    void startInterface(MemberList* memberlist, int businessNumber);//여기 있는데...
-    void startCancel(MemberList* memberlist, int businessNumber);
+    UI_CancelApply(Control_CancelApply* Apply, MemberList* memberlist, RecruitInfoList * recruitlist, string* curID, string* curPW, int businessNumber);
+    void startInterface(MemberList* member, RecruitInfoList* recruitlist, string* curID, string* curPW, int BusinessNumber);
+    void startCancel(MemberList* memberlist, RecruitInfoList* recruitlist,string*curID,int businessNumber);
 };
 
-class CancelApply {
+class Control_CancelApply {
 private:
-    CancelApplyUI* ui_cancelApply;
+    UI_CancelApply* ui_cancelApply;
     
 public://memberList에서 recruitInfo를 바로 접근 가능한가?
-    void showCancel(MemberList* member, int businessNumber);
-    void call_startInterface(MemberList* member, int businessNumber);
+    void showCancel(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID,int businessNumber) ;
+    void call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist,string*curID, string *curPW,int businessNumber);
     
 };
 //===========================================
-class StatisticUI {
+
+class UI_Statistic {
 private:
-    Statistic* control_statistic;
+    Control_Statistic* control_statistic;
 public:
-    StatisticUI(Statistic* statistic, MemberList* member);//type number을 바로 접근 가능한가?
-    void startInterface(MemberList* member);
+    UI_Statistic(Control_Statistic* statistic, MemberList* member, RecruitInfoList* recruitlist, string* curID, string* curPW);//type number을 바로 접근 가능한가?
+    void startInterface(MemberList* member, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    void startStatistic(MemberList* memberlist, string ID);
 };
 
 
 
-class Statistic {
+class Control_Statistic {
 private:
-    StatisticUI* ui_statistic;
+    UI_Statistic* ui_statistic;
     
 public:
-    void call_startInterface(MemberList* member);
-    void getStat(MemberList* memeber);
+    void call_startInterface(MemberList* memberlist, RecruitInfoList* recruitlist, string* curID, string* curPW);
+    void getStat(MemberList* memberlist, string curID);
 };
 
-*/
+
 
 
 #endif /* boundary_h */
